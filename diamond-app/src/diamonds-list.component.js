@@ -3,11 +3,11 @@ import axios from 'axios';
 
 const Diamond = props => (
     <tr>
-        <td>{props.diamond.diamond_carat}</td>
-        <td>{props.diamond.diamond_color}</td>
-        <td>{props.diamond.diamond_cut}</td>
-        <td>{props.diamond.diamond_clarity}</td>
-        <td>{props.diamond.diamond_price}</td>
+        <td>{props.diamond.carat}</td>
+        <td>{props.diamond.color}</td>
+        <td>{props.diamond.cut}</td>
+        <td>{props.diamond.clarity}</td>
+        <td>{props.diamond.price}</td>
     </tr>
 )
 

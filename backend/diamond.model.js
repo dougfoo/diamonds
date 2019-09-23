@@ -2,27 +2,27 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let Diamond = new Schema({
-    diamond_clarity: {
+    clarity: {
         type: String,
         default: 'Default'
     },
-    diamond_cut: {
+    cut: {
         type: String,
         default: 'Default'
     },
-    diamond_carat: {
+    carat: {
         type: Number,
         default: -1
     },
-    diamond_price: {
+    price: {
         type: Number,
         default: -1
     },
-    diamond_color: {
+    color: {
         type: String,
         default: 'Default'
     }
-});
+}, { collection: 'diamondsnile' });
 
 module.exports = mongoose.model('Diamond', Diamond);
 // module.exports = Diamond;
