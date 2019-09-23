@@ -12,7 +12,6 @@ const Diamond = props => (
 )
 
 export default class DiamondList extends Component {
-
     constructor(props) {
         super(props);
         this.state = {diamonds: []};

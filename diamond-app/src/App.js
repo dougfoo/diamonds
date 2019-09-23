@@ -21,14 +21,7 @@ class App extends Component {
       <Router>
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link to="/" className="navbar-brand">MERN-Stack DIamonds App</Link>
-            <div className="collpase navbar-collapse">
-              <ul className="navbar-nav mr-auto">
-                <li className="navbar-item">
-                  <Link to="/" className="nav-link">Diamonds</Link>
-                </li>
-              </ul>
-            </div>
+            <Link to="/" className="navbar-brand">Diamond Analytics and Pricing by Foostack.ai</Link>
           </nav>
           <br/>
           <Route path="/" exact component={DiamondsList} />
