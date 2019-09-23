@@ -4,6 +4,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import DiamondsList from "./diamonds-list.component.js";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        diamond_color: '',
+        diamond_clarity: '',
+        diamond_cut: '',
+        diamond_carat: '',
+        diamond_price: '',
+    }
+  } 
+
   render() {
     return (
       <Router>
