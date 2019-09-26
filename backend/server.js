@@ -11,7 +11,8 @@ let Diamond = require('./diamond.model.js');
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/diamonds', { useNewUrlParser: true });
+//mongoose.connect('mongodb://127.0.0.1:27017/diamonds', { useNewUrlParser: true });
+mongoose.connect('mongodb://foo_ro:foo123@ds145916.mlab.com:45916/diamonds', { useNewUrlParser: true });
 const connection = mongoose.connection;
 
 connection.once('open', function() {
