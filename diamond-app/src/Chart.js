@@ -8,21 +8,21 @@ function createData(time, amount) {
 }
 
 const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
+  createData('1/1', 2000),
+  createData('2/1', 2300),
+  createData('3/1', 2600),
+  createData('4/1', 2800),
+  createData('5/1', 2500),
+  createData('6/1', 2000),
+  createData('7/1', 2400),
+  createData('8/1', 2400),
+  createData('9/1', undefined),
 ];
 
 export default function Chart() {
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>Average Diamond Price</Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
@@ -36,7 +36,7 @@ export default function Chart() {
           <XAxis dataKey="time" />
           <YAxis>
             <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
-              Sales ($)
+              Price ($)
             </Label>
           </YAxis>
           <Line type="monotone" dataKey="amount" stroke="#556CD6" dot={false} />
