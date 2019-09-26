@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DiamondsList from "./diamonds-list.component.js";
+import Dashboard from "./Dashboard"
 
 class App extends Component {
   constructor(props) {
@@ -23,8 +24,8 @@ class App extends Component {
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to="/" className="navbar-brand">Diamond Analytics and Pricing by Foostack.ai</Link>
           </nav>
-          <br/>
-          <Route path="/" exact component={DiamondsList} />
+          <Dashboard/>
+            <Route path="/" exact component={DiamondsList} />
         </div>
       </Router>
     );

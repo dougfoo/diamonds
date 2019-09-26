@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import DiamondDashboard from "./Dashboard"
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<DiamondDashboard />, document.getElementById('root'));
 serviceWorker.unregister();
