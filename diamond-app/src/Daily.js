@@ -1,7 +1,6 @@
 /* eslint-disable no-script-url */
 
 import React from 'react';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
@@ -23,10 +22,10 @@ export default function Daily() {
       <Typography color="textSecondary" className={classes.depositContext}>
         on 15 Sept, 2019
       </Typography>
-      <Typography component="p" variant="h8">Carat: 1.0</Typography>
-      <Typography component="p" variant="h8">Color: D</Typography>
-      <Typography component="p" variant="h8">Clarity: VS1</Typography>
-      <Typography component="p" variant="h8">Cut: Ideal</Typography>        
+      <Typography component="p" variant="subtitle2">Carat: 1.0</Typography>
+      <Typography component="p" variant="subtitle2">Color: D</Typography>
+      <Typography component="p" variant="subtitle2">Clarity: VS1</Typography>
+      <Typography component="p" variant="subtitle2">Cut: Ideal</Typography>        
     </React.Fragment>
   );
 }

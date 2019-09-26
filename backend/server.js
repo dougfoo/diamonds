@@ -19,7 +19,7 @@ connection.once('open', function() {
 })
 
 diamondRoutes.route('/').get(function(req, res) {
-    Diamond.find(function(err, diamonds) {
+    Diamond.find( {price: { $gte: 600 }},  function(err, diamonds) {
         if (err) {
             console.log(err);
         } else {

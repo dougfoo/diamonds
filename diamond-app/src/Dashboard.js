@@ -20,7 +20,6 @@ import HelpIcon from '@material-ui/icons/Help';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Daily from './Daily';
-import DiamondList from "./diamonds-list.component";
 import DiamondsTable from "./DiamondsTable";
 
 
