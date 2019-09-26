@@ -13,7 +13,7 @@ let Diamond = require('./diamond.model.js');
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://foo_ro:foo123@ds145916.mlab.com:45916/diamonds', { useNewUrlParser: true });
+mongoose.connect('mongodb://foo_ro:foo123@ds145916.mlab.com:45916/diamonds', { useNewUrlParser: true, useUnifiedTopology: true  });
 //mongoose.connect('mongodb://ds145916.mlab.com:45916/diamonds', { useNewUrlParser: true, auth: { user: DB_USER, password: DB_PW});
 const connection = mongoose.connection;
 
@@ -22,7 +22,7 @@ connection.once('open', function() {
 })
 
 diamondRoutes.route('/').get(function(req, res) {
-    Diamond.find( {price: { $gte: 600 }},  function(err, diamonds) {
+    Diamond.find( {price: { $gte: 200000 }},  function(err, diamonds) {
         if (err) {
             console.log(err);
         } else {
@@ -44,7 +44,6 @@ app.use(express.static("../diamond-app/build")); // change this if your dir stru
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../diamond-app", "build", "index.html"));
   });
-
 
 app.listen(PORT, function() {
     console.log("Server is running on Port..: " + PORT);

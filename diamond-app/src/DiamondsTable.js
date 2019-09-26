@@ -9,7 +9,7 @@ export default class DiamondsTable extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:4000/diamonds/')
+    axios.get('/diamonds/')
         .then(response => {
             this.setState({ diamonds: response.data });
         })
