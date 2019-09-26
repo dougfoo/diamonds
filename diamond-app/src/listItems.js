@@ -21,19 +21,19 @@ export const mainListItems = (
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
-      <ListItemText primary="Pricing" />
+      <ListItemText primary="Pricing  (TBD)" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Reports  (TBD)" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component="a" href="https://nbviewer.jupyter.org/github/dougfoo/machineLearning/blob/master/diamonds/Diamond-Analysis-1.ipynb">
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Notebooks" />
+      <ListItemText primary="Notebooks (Beta)" />
     </ListItem>
   </div>
 );
@@ -44,9 +44,9 @@ export const secondaryListItems = (
       <ListItemIcon>
         <PeopleIcon/>
       </ListItemIcon>
-      <ListItemText primary="Contributors" />
+      <ListItemText primary="Contributors (TBD)" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component="a" href="http://foostack.ai/">
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
