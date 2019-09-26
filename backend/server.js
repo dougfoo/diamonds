@@ -38,17 +38,6 @@ diamondRoutes.route('/:id').get(function(req, res) {
     });
 });
 
-diamondRoutes.route('/add').post(function(req, res) {
-    let diamond = new Diamond(req.body);
-    diamond.save()
-        .then(diamond => {
-            res.status(200).json({'diamond': 'diamond added successfully'});
-        })
-        .catch(err => {
-            res.status(400).send('adding new diamond failed');
-        });
-});
-
 app.use('/diamonds', diamondRoutes);
 
 app.use(express.static("../diamond-app/build")); // change this if your dir structure is different
