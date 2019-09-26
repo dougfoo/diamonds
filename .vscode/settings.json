@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/7a2efedb-22fb-4344-bf58-c4b1a17f440a/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/diamond-analytics-vscode",
+    "appService.deploySubpath": ""
+}
