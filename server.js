@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const diamondRoutes = express.Router();
 const PORT = process.env.PORT || 4000;
+var path = require('path'); 
 
 const { DB_USER, DB_PW } = process.env;  // to be used after
 
