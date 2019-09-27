@@ -40,9 +40,9 @@ diamondRoutes.route('/:id').get(function(req, res) {
 
 app.use('/diamonds', diamondRoutes);
 
-app.use(express.static("../diamond-app/build")); // change this if your dir structure is different
+app.use(express.static("./diamond-app/build")); // change this if your dir structure is different
 app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../diamond-app", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "./diamond-app", "build", "index.html"));
   });
 
 app.listen(PORT, function() {
