@@ -9,7 +9,11 @@ export default class DiamondsTable extends Component {
   }
 
   componentDidMount() {
-    axios.get('/diamonds/')
+    const remoteUrl = 'http://localhost:4000/diamonds';
+    const webpackUrl = '/diamonds';
+    const apiurl = webpackUrl;
+
+    axios.get(apiurl)
         .then(response => {
             this.setState({ diamonds: response.data });
         })
@@ -20,7 +24,7 @@ export default class DiamondsTable extends Component {
 
   render() {
     const columns = [
-      { title: 'Price', field: 'price' },
+      { title: 'Price', field: 'price', type: 'currency' },
       { title: 'Carat', field: 'carat' },
       { title: 'Cut', field: 'cut' },
       { title: 'Clarity', field: 'clarity' },
