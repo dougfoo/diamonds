@@ -9,13 +9,13 @@ export default class DiamondsTable extends Component {
   }
 
   componentDidMount() {
-    // axios.get('/diamonds/')
-    //     .then(response => {
-    //         this.setState({ diamonds: response.data });
-    //     })
-    //     .catch(function (error){
-    //         console.log(error);
-    //     })
+    axios.get('/diamonds/')
+        .then(response => {
+            this.setState({ diamonds: response.data });
+        })
+        .catch(function (error){
+            console.log(error);
+        })
   }
 
   render() {
