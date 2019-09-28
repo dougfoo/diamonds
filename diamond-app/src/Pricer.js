@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Title from './Title';
-import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
-import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -50,6 +50,34 @@ const color = [
     {      value: 'G',      label: 'G',    },
     {      value: 'I',      label: 'I',    },
 ];
+
+function ModelChooser(props) {
+    const classes = useStyles();
+    const [state, setState] = React.useState({
+      LR: true,
+      DT: false,
+      XGB: true,
+    });
+  
+    const handleChange = name => event => {
+      setState({ ...state, [name]: event.target.checked });
+    };
+  
+    const { LR, DT, XGB } = state
+    const error = [LR, DT, XGB].filter(v => v).length !== 2;
+  
+    return (
+      <FormControl component="fieldset" >
+        <Typography gutterBottom>Prediction Models</Typography>    
+        <FormGroup row >
+          <FormControlLabel control={<Checkbox checked={LR} onChange={handleChange('LR')} value="LR" />} label=" LR" />
+          <FormControlLabel control={<Checkbox checked={DT} onChange={handleChange('DT')} value="DT" />} label=" DT" />
+          <FormControlLabel control={<Checkbox checked={XGB} onChange={handleChange('XGB')} value="XGB" />} label=" XGB" />
+        </FormGroup>
+        <Typography gutterBottom variant='subtittle2' color='textPrimary'>Machine Learned from bluenile</Typography>    
+      </FormControl> 
+    );
+}
 
 export default function Pricer() {
   const classes = useStyles();
@@ -135,7 +163,8 @@ export default function Pricer() {
                 {option.label}
             </MenuItem>
             ))}
-        </TextField>     
+        </TextField> 
+        <ModelChooser/>
       </FormGroup>
     </React.Fragment>
   );

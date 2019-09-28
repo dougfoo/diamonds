@@ -180,7 +180,7 @@ export default function DiamondDashboard() {
                 <Chooser />
               </Paper>
             </Grid>
-            <Grid item xs={6} md={4} lg={3}>
+            <Grid item xs={8} md={5} lg={4}>
               <Paper className={fixedHeightPaper}>
                 <Pricer />
               </Paper>

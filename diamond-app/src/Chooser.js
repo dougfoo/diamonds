@@ -15,11 +15,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: 800 + theme.spacing(3) * 2,
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
   },
   margin: {
-    height: theme.spacing(2),
+    height: theme.spacing(1),
   },
 }));
 
