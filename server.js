@@ -23,7 +23,7 @@ connection.once('open', function() {
 })
 
 diamondRoutes.route('/').get(function(req, res) {
-    Diamond.find( {price: { $gte: 100000 }},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+    Diamond.find( {price: { $gte: 5000, $lte: 6000}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
         if (err) {
             console.log(err);
         } else {

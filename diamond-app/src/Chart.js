@@ -1,47 +1,43 @@
-import React from 'react';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
-import Title from './Title';
+import React, { Component } from 'react';
+import { VictoryLabel, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryScatter } from 'victory';
+import axios from 'axios';
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
+export default class Chart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {diamonds: []};
+  }
 
-const data = [
-  createData('1/1', 2000),
-  createData('2/1', 2300),
-  createData('3/1', 2600),
-  createData('4/1', 2800),
-  createData('5/1', 2500),
-  createData('6/1', 2000),
-  createData('7/1', 2400),
-  createData('8/1', 2400),
-  createData('9/1', undefined),
-];
+  componentDidMount() {
+    const remoteUrl = 'http://localhost:4000/diamonds';
+    const webpackUrl = '/diamonds';
+    const apiurl = process.env.PORT ? webpackUrl : remoteUrl;
 
-export default function Chart() {
-  return (
-    <React.Fragment>
-      <Title>Average Diamond Price</Title>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
-        >
-          <XAxis dataKey="time" />
-          <YAxis>
-            <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
-              Price ($)
-            </Label>
-          </YAxis>
-          <Line type="monotone" dataKey="amount" stroke="#556CD6" dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
-    </React.Fragment>
-  );
+    axios.get(apiurl)
+        .then(response => {
+            this.setState({ diamonds: response.data });
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <VictoryChart height={200} width={400} >  
+          <VictoryLabel text="Price / Carat" x={150} y={20}/>
+          <VictoryAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } }} />
+          <VictoryAxis dependentAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } }} />
+          <VictoryScatter
+                style={{
+                  data: { stroke: "#c43a31"},
+                  parent: { border: "1px solid #ccc" }
+                }}
+                size={1}
+                data={this.state.diamonds} x="carat" y="price" scale={{x: "linear", y: "linear"}}
+          />
+        </VictoryChart>    
+      </React.Fragment>);
+  }
 }

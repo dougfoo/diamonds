@@ -20,8 +20,9 @@ import HelpIcon from '@material-ui/icons/Help';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Daily from './Daily';
+import Pricer from './Pricer';
+import Chooser from './Chooser';
 import DiamondsTable from "./DiamondsTable";
-
 
 function Copyright() {
   return (
@@ -108,18 +109,18 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
-  display: 'flex',
+    display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240,
+    height: 280,
   },
 }));
 
 export default function DiamondDashboard() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -176,11 +177,21 @@ export default function DiamondDashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                <Chooser />
+              </Paper>
+            </Grid>
+            <Grid item xs={6} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <Pricer />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={classes.paper}>
+                <Chart/>
               </Paper>
             </Grid>
             {/* Daily Note */}
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <Daily />
               </Paper>
