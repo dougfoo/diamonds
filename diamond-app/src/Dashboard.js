@@ -174,8 +174,8 @@ export default function DiamondDashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
+            {/* Chart  remember xs phone, sm tablet, md desktop, lg big desktop */}
+            <Grid item xs={12} md={8} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <Chooser />
               </Paper>
