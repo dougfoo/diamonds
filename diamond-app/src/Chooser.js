@@ -18,6 +18,11 @@ const useStyles = makeStyles(theme => ({
   formControl: {
       fontSize: 8, 
   },
+  slider: {
+      width: 300, 
+      marginRight: 30,
+      marginLeft: 30,
+  },
 }));
 
 function ValueLabelComponent(props) {
@@ -85,6 +90,33 @@ export default function Chooser() {
     CaratHigh: 3.0
   });
 
+  const marks = [
+    {
+      value: 0.5,
+      label: '0.5',
+    },
+    {
+      value: 1,
+      label: '1.0',
+    },
+    {
+      value: 1.7,
+      label: '1.7',
+    },
+    {
+      value: 2.5,
+      label: '2.5',
+    },
+    {
+      value: 3.3,
+      label: '3.3',
+    },
+    {
+      value: 4.0,
+      label: '4.0',
+    },
+  ];
+
   const handleChange = name => event => {
     setState({ ...state, [name.k]: event.target.checked });
     console.log('change, name:',name);
@@ -125,9 +157,9 @@ export default function Chooser() {
               <FormControlLabel key={k} control={<Checkbox checked={claritys[k]} onChange={handleChange({k})} value={claritys[k]} />} label={k} />
           ))}
           <Typography gutterBottom variant='subtitle2'>Carat Chooser</Typography>
-          <Slider
+          <Slider marks={marks} valueLabelDisplay="on"
             ValueLabelComponent={ValueLabelComponent} onChange={handleCaratChange} 
-            min={0.5} max={4.0} step={0.1}
+            min={0.5} max={4.0} step={0.1} className={classes.slider}
             defaultValue={[1,3]} 
           />
           <NotReadyPopup button="Filter" msg="This feature is in development" debug={JSON.stringify(state)} accept="OK"/>
