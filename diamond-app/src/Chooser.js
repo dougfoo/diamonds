@@ -14,9 +14,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(1),
-  },
   margin: {
     height: theme.spacing(1),
   },
@@ -133,7 +130,7 @@ export default function Chooser() {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.root}>
+    <React.Fragment>
       <Typography gutterBottom>Color Chooser</Typography>
       <ColorChooser/>
       <div className={classes.margin} />
@@ -151,6 +148,6 @@ export default function Chooser() {
         getAriaLabel={index => (index === 0 ? 'Minimum price' : 'Maximum price')}
         defaultValue={[20, 40]}
       />
-    </Paper>
+    </React.Fragment>
   );
 }

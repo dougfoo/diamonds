@@ -23,7 +23,7 @@ connection.once('open', function() {
 })
 
 diamondRoutes.route('/').get(function(req, res) {
-    Diamond.find( {carat: { $gte: 0.75, $lte: 1.2}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+    Diamond.find( {carat: { $gte: 0.70, $lte: 1.3}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
         if (err) {
             console.log(err);
         } else {
