@@ -1,5 +1,3 @@
-/* eslint-disable no-script-url */
-
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Title from './Title';
@@ -11,7 +9,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles(theme => ({
   rightIcon: {
@@ -60,7 +57,6 @@ const color = [
 ];
 
 function ModelChooser(props) {
-    const classes = useStyles();
     const [state, setState] = React.useState({
       LR: true,
       DT: false,
@@ -71,18 +67,16 @@ function ModelChooser(props) {
       setState({ ...state, [name]: event.target.checked });
     };
   
-    const { LR, DT, XGB } = state
-    const error = [LR, DT, XGB].filter(v => v).length !== 2;
+    const { LR, RF, XGB } = state
   
     return (
       <FormControl component="fieldset" >
         <Typography gutterBottom>Prediction Models</Typography>    
         <FormGroup row >
-          <FormControlLabel control={<Checkbox checked={LR} onChange={handleChange('LR')} value="LR" />} label=" LR" />
-          <FormControlLabel control={<Checkbox checked={DT} onChange={handleChange('DT')} value="DT" />} label=" DT" />
-          <FormControlLabel control={<Checkbox checked={XGB} onChange={handleChange('XGB')} value="XGB" />} label=" XGB" />
+          <FormControlLabel control={<Checkbox checked={LR} onChange={handleChange('LR')} value="LR" />} label="LinRegress" />
+          <FormControlLabel control={<Checkbox checked={RF} onChange={handleChange('RF')} value="RF" />} label=" RandForest" />
+          <FormControlLabel control={<Checkbox checked={XGB} onChange={handleChange('XGB')} value="XGB" />} label=" XGBoost" />
         </FormGroup>
-        <Typography gutterBottom variant='subtittle2' color='textPrimary'>Machine Learned from bluenile</Typography>    
       </FormControl> 
     );
 }
@@ -94,9 +88,7 @@ export default function Pricer() {
     clarity: '',
     carat: 1.1,
     cut: '',
-  });
-  
-  const inputLabel = React.useRef(null);
+  });  
 
   const handleChange = event => {
     setValues(oldValues => ({
@@ -170,7 +162,7 @@ export default function Pricer() {
         </TextField> 
         <ModelChooser/>
         <Button variant="contained" color="primary" className={classes.button}>
-          Submit
+          Price
         </Button>
  
       </FormGroup>

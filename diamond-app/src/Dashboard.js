@@ -17,7 +17,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import HelpIcon from '@material-ui/icons/Help';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, SecondaryListItems } from './listItems';
 import Chart from './Chart';
 import Daily from './Daily';
 import Pricer from './Pricer';
@@ -168,21 +168,23 @@ export default function DiamondDashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>
+          <SecondaryListItems/>
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart  remember xs phone, sm tablet, md desktop, lg big desktop */}
-            <Grid item xs={9} md={6} lg={5}>
-              <Paper className={fixedHeightPaper}>
-                <Pricer />
-              </Paper>
-            </Grid>
             <Grid item xs={12} md={8} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <Chooser />
+              </Paper>
+            </Grid>
+            <Grid item xs={9} md={6} lg={5}>
+              <Paper className={fixedHeightPaper}>
+                <Pricer />
               </Paper>
             </Grid>
             <Grid item xs={12} md={8} lg={9}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VictoryLabel, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryScatter } from 'victory';
+import {  VictoryChart,  VictoryAxis, VictoryScatter } from 'victory';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
 import ReactLoading from "react-loading";
@@ -18,13 +18,16 @@ export default class Chart extends Component {
     const webpackUrl = '/diamonds';
     const apiurl = process.env.PORT ? webpackUrl : remoteUrl;
 
-    axios.get(apiurl)
-        .then(response => {
-            this.setState({ diamonds: response.data, done: true});
-        })
-        .catch(function (error){
-            console.log(error);
-        })
+    // why wrap in setTimeout ?  mobile issue somewhere
+//    setTimeout(function(apiurl) {
+      axios.get(apiurl)
+          .then(response => {
+              this.setState({ diamonds: response.data, done: true});
+          })
+          .catch(function (error){
+              console.log(error);
+          })
+//      }, 0)
   }
 
   render() {
@@ -32,13 +35,13 @@ export default class Chart extends Component {
       <React.Fragment>
      {!this.state.done ? (
         <div>
-          <Typography gutterBottom variant='h6' color='#FF0000'>Loading... 
+          <Typography gutterBottom variant='h6' color='secondary'>Loading... 
           </Typography>
           <ReactLoading type={"bars"} color={"red"} />
         </div>
         ) : (
         <div>
-          <Typography gutterBottom variant='h6' color='#FF0000'>
+          <Typography gutterBottom variant='h6'>
             Price to Carat [by Color]
             (<font color="#FF0000">D</font>,
             <font color="FF8000">E</font>, 

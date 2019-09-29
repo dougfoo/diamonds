@@ -1,22 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Title from './Title';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles(theme => ({
   margin: {
-    height: theme.spacing(1),
+    height: theme.spacing(0),
+  },
+  formControl: {
+      fontSize: 8, 
   },
 }));
 
@@ -51,120 +52,88 @@ ValueLabelComponent.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const AirbnbSlider = withStyles({
-  root: {
-    color: '#3a8589',
-    height: 3,
-    padding: '13px 0',
-  },
-  thumb: {
-    height: 27,
-    width: 27,
-    backgroundColor: '#fff',
-    border: '1px solid currentColor',
-    marginTop: -12,
-    marginLeft: -13,
-    boxShadow: '#ebebeb 0px 2px 2px',
-    '&:focus,&:hover,&$active': {
-      boxShadow: '#ccc 0px 2px 3px 1px',
-    },
-    '& .bar': {
-      // display: inline-block !important;
-      height: 9,
-      width: 1,
-      backgroundColor: 'currentColor',
-      marginLeft: 1,
-      marginRight: 1,
-    },
-  },
-  active: {},
-  valueLabel: {
-    left: 'calc(-50% + 4px)',
-  },
-  track: {
-    height: 3,
-  },
-  rail: {
-    color: '#d8d8d8',
-    opacity: 1,
-    height: 3,
-  },
-})(Slider);
+/*
+    colors [ D,E,F,G,H,I,J,K ]
+    cut [Astor Ideal*, Ideal, Very Good, Good ]  *Astor is a brand naming?  Premium ?
+    clarity [FL, IF, VVS1, VVS2, VS1, VS2, SI1, SI2 ]
+    carats decimal 0.0->25.0
+*/
 
-function AirbnbThumbComponent(props) {
-  return (
-    <span {...props}>
-      <span className="bar" />
-      <span className="bar" />
-      <span className="bar" />
-    </span>
-  );
-}
-
-function ColorChooser(props) {
+export default function Chooser() {  
   const classes = useStyles();
   const [state, setState] = React.useState({
     D: true,
     E: false,
-    G: false,
+    F: false,
+    G: true,
+    H: false,
+    I: false,
+    J: false,
+    K: false,
     Ideal: true,
     Good: false,
-    VeryGOod: false,
+    VeryGood: false,
+    AstorIdeal: true,
     FL: true,
     IF: true,
-    VVS: false,
-    VS: false,
+    VVS1: false,
+    VVS2: false,
+    VS1: false,
+    VS2: false,
+    SI1: false,
+    SI2: false,
+    CaratLow: 1.0,
+    CaratHigh: 3.0
   });
 
   const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
+    setState({ ...state, [name.k]: event.target.checked });
+    console.log('change, name:',name);
   };
 
-  const { D, E, G, Ideal, Good, VeryGood, FL, IF, VVS, VS } = state
+  const handleSubmit = event => {
+    console.log('submit filter, state:',state);
+    let postStr = JSON.stringify(state);
+    console.log('post: ',postStr);
+  };
 
-  return (
-    <FormControl component="fieldset" className={classes.formControl}>
-      <FormGroup row>
-        <Typography gutterBottom>Color</Typography>    
-        <FormControlLabel control={<Checkbox checked={D} onChange={handleChange('D')} value="D" />} label=" D" />
-        <FormControlLabel control={<Checkbox checked={E} onChange={handleChange('E')} value="E" />} label=" E" />
-        <FormControlLabel control={<Checkbox checked={G} onChange={handleChange('G')} value="G" />} label=" G" />
-        <Typography gutterBottom>Cut</Typography>    
-        <FormControlLabel control={<Checkbox checked={Ideal} onChange={handleChange('Ideal')} value="Ideal" />} label="Ideal" />
-        <FormControlLabel control={<Checkbox checked={Good} onChange={handleChange('Good')} value="Good" />} label="Good" />
-        <FormControlLabel control={<Checkbox checked={VeryGood} onChange={handleChange('Very Good')} value="VeryGood" />} label="Very Good" />
-        <Typography gutterBottom>Clarity</Typography>    
-        <FormControlLabel control={<Checkbox checked={FL} onChange={handleChange('Flawless')} value="FL" />} label="Flawless" />
-        <FormControlLabel control={<Checkbox checked={IF} onChange={handleChange('Internally Flawless')} value="IF" />} label="Internally Flawless" />
-        <FormControlLabel control={<Checkbox checked={VVS} onChange={handleChange('VVS')} value="VVS" />} label="VVS" />
-        <FormControlLabel control={<Checkbox checked={VS} onChange={handleChange('VS')} value="VS" />} label="VS" />
-      </FormGroup>
-    </FormControl> 
-  );
-}
+  const handleCaratChange = (event, value) => {
+    setState({ ...state, CaratLow: value[0] , CaratHigh: value[1] });
+    console.log('carat change, value:',event, value);
+  }
 
-export default function Chooser() {  
-  const classes = useStyles();
+  const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2, 
+           CaratLow, CaratHigh } = state;
+  const colors = { D:D, E:E, F:F, G:G, H:H, I:I, J:J, K:K };  // faster way to do this?
+  const cuts = { AstorIdeal:AstorIdeal,Ideal:Ideal,Good:Good,VeryGood:VeryGood };
+  const claritys = { FL:FL, IF:IF, VVS1:VVS1, VVS2:VVS2, VS1:VS1, VS2:VS2, SI1:SI1, SI2:SI2 };
 
   return (
     <React.Fragment>
       <Title>Filter Diamonds</Title>
-      <ColorChooser/>
-      <div className={classes.margin} />
-      <Typography gutterBottom>Carat Chooser</Typography>
-      <Slider
-        ValueLabelComponent={ValueLabelComponent}
-        aria-label="custom thumb label"
-        min={0.5} max={4.0} step={0.1}
-        defaultValue={[0.9,1.5]}
-      />
-      <div className={classes.margin} />
-      <Typography gutterBottom>Price Range</Typography>
-      <AirbnbSlider
-        ThumbComponent={AirbnbThumbComponent}
-        getAriaLabel={index => (index === 0 ? 'Minimum price' : 'Maximum price')}
-        defaultValue={[20, 40]}
-      />
+      <FormControl component="fieldset" className={classes.formControl} >
+        <FormGroup row={true} variant='subtitle2'>
+          <Typography gutterBottom variant='subtitle2'>Color</Typography>    
+          {Object.keys(colors).map((k,v) => (
+              <FormControlLabel key={k} control={<Checkbox checked={colors[k]} onChange={handleChange({k})} value={colors[k]} />} label={k} />
+          ))}
+          <Typography gutterBottom variant='subtitle2'>Cut</Typography>    
+          {Object.keys(cuts).map((k,v) => (
+              <FormControlLabel key={k} control={<Checkbox checked={cuts[k]} onChange={handleChange({k})} value={cuts[k]} />} label={k} />
+          ))}
+          <Typography gutterBottom variant='subtitle2'>Clarity</Typography>    
+          {Object.keys(claritys).map((k,v) => (
+              <FormControlLabel key={k} control={<Checkbox checked={claritys[k]} onChange={handleChange({k})} value={claritys[k]} />} label={k} />
+          ))}
+          <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Apply</Button>
+          <Typography gutterBottom variant='subtitle2'>Carat Chooser</Typography>
+          <Slider
+            ValueLabelComponent={ValueLabelComponent} onChange={handleCaratChange} 
+            min={0.5} max={4.0} step={0.1}
+            defaultValue={[1,3]}
+          />
+        </FormGroup>
+      </FormControl> 
     </React.Fragment>
   );
 }
