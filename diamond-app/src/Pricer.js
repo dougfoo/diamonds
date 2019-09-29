@@ -10,8 +10,16 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles(theme => ({
+  rightIcon: {
+    marginLeft: theme.spacing(1),
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -89,10 +97,6 @@ export default function Pricer() {
   });
   
   const inputLabel = React.useRef(null);
-//   const [labelWidth, setLabelWidth] = React.useState(0);
-//   React.useEffect(() => {
-//     setLabelWidth(inputLabel.current.offsetWidth);
-//   }, []);
 
   const handleChange = event => {
     setValues(oldValues => ({
@@ -165,6 +169,10 @@ export default function Pricer() {
             ))}
         </TextField> 
         <ModelChooser/>
+        <Button variant="contained" color="primary" className={classes.button}>
+          Submit
+        </Button>
+ 
       </FormGroup>
     </React.Fragment>
   );
