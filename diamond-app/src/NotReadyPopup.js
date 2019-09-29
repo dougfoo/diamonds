@@ -34,12 +34,12 @@ export default function NotReadyPopup(props) {  /* props button, msg, accept, an
           {props.msg}
           </DialogContentText>
           <DialogContentText id="alert-dialog-description">
-          { props.debug ? "" : props.debug }
+          { props.debug ? props.debug : "" }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>
-            { props.accept ? "Accept Apologies" : props.accept }
+            { props.accept ? props.accept : "Accept Apologies" }
           </Button>
         </DialogActions>
       </Dialog>
