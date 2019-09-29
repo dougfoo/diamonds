@@ -118,6 +118,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
 export default function DiamondDashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -179,12 +180,12 @@ export default function DiamondDashboard() {
             {/* Chart  remember xs phone, sm tablet, md desktop, lg big desktop */}
             <Grid item xs={12} md={8} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <Chooser />
+                <Chooser/>
               </Paper>
             </Grid>
             <Grid item xs={9} md={6} lg={5}>
               <Paper className={fixedHeightPaper}>
-                <Pricer />
+                <Pricer/>
               </Paper>
             </Grid>
             <Grid item xs={12} md={8} lg={9}>

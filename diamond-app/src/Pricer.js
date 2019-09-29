@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
+import NotReadyPopup from "./NotReadyPopup";
 
 const useStyles = makeStyles(theme => ({
   rightIcon: {
@@ -81,7 +81,7 @@ function ModelChooser(props) {
     );
 }
 
-export default function Pricer() {
+export default function Pricer(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     color: '',
@@ -159,11 +159,10 @@ export default function Pricer() {
                 {option.label}
             </MenuItem>
             ))}
-        </TextField> 
+        </TextField>
         <ModelChooser/>
-        <Button variant="contained" color="primary" className={classes.button}>
-          Price
-        </Button>
+        <NotReadyPopup msg="Pricer is coming soon" button="Price" accept="Accept Foo Apologies" />
+        {/* <Button variant="contained" color="primary" className={classes.button}>Price</Button> */}
  
       </FormGroup>
     </React.Fragment>

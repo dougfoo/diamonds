@@ -9,12 +9,8 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Title from './Title';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import NotReadyPopup from "./NotReadyPopup";
+
 const useStyles = makeStyles(theme => ({
   margin: {
     height: theme.spacing(0),
@@ -23,49 +19,6 @@ const useStyles = makeStyles(theme => ({
       fontSize: 8, 
   },
 }));
-
-
-export function SubmitNotReady(props) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        {props.title}
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Function is not ready"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          {props.msg}
-          </DialogContentText>
-
-          <DialogContentText id="alert-dialog-description">
-          {props.debug}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Accept Apologies
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
 
 function ValueLabelComponent(props) {
   const { children, open, value } = props;
@@ -171,14 +124,14 @@ export default function Chooser() {
           {Object.keys(claritys).map((k,v) => (
               <FormControlLabel key={k} control={<Checkbox checked={claritys[k]} onChange={handleChange({k})} value={claritys[k]} />} label={k} />
           ))}
-          <SubmitNotReady title="Filter" msg="This feature is in development" debug={JSON.stringify(state)}/>
-          {/* <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Apply</Button> */}
           <Typography gutterBottom variant='subtitle2'>Carat Chooser</Typography>
           <Slider
             ValueLabelComponent={ValueLabelComponent} onChange={handleCaratChange} 
             min={0.5} max={4.0} step={0.1}
             defaultValue={[1,3]} 
           />
+          <NotReadyPopup button="Filter" msg="This feature is in development" debug={JSON.stringify(state)} accept="OK"/>
+          {/* <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Apply</Button> */}
         </FormGroup>
       </FormControl> 
     </React.Fragment>
