@@ -175,14 +175,14 @@ export default function DiamondDashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart  remember xs phone, sm tablet, md desktop, lg big desktop */}
+            <Grid item xs={9} md={6} lg={5}>
+              <Paper className={fixedHeightPaper}>
+                <Pricer />
+              </Paper>
+            </Grid>
             <Grid item xs={12} md={8} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <Chooser />
-              </Paper>
-            </Grid>
-            <Grid item xs={8} md={5} lg={4}>
-              <Paper className={fixedHeightPaper}>
-                <Pricer />
               </Paper>
             </Grid>
             <Grid item xs={12} md={8} lg={9}>

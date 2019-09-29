@@ -11,6 +11,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
+import Title from './Title';
 
 
 const useStyles = makeStyles(theme => ({
@@ -106,21 +107,37 @@ function ColorChooser(props) {
     D: true,
     E: false,
     G: false,
+    Ideal: true,
+    Good: false,
+    VeryGOod: false,
+    FL: true,
+    IF: true,
+    VVS: false,
+    VS: false,
   });
 
   const handleChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
 
-  const { D, E, G } = state
-  const error = [D, E, G].filter(v => v).length !== 2;
+  const { D, E, G, Ideal, Good, VeryGood, FL, IF, VVS, VS } = state
 
   return (
     <FormControl component="fieldset" className={classes.formControl}>
       <FormGroup row>
+        <Typography gutterBottom>Color</Typography>    
         <FormControlLabel control={<Checkbox checked={D} onChange={handleChange('D')} value="D" />} label=" D" />
         <FormControlLabel control={<Checkbox checked={E} onChange={handleChange('E')} value="E" />} label=" E" />
         <FormControlLabel control={<Checkbox checked={G} onChange={handleChange('G')} value="G" />} label=" G" />
+        <Typography gutterBottom>Cut</Typography>    
+        <FormControlLabel control={<Checkbox checked={Ideal} onChange={handleChange('Ideal')} value="Ideal" />} label="Ideal" />
+        <FormControlLabel control={<Checkbox checked={Good} onChange={handleChange('Good')} value="Good" />} label="Good" />
+        <FormControlLabel control={<Checkbox checked={VeryGood} onChange={handleChange('Very Good')} value="VeryGood" />} label="Very Good" />
+        <Typography gutterBottom>Clarity</Typography>    
+        <FormControlLabel control={<Checkbox checked={FL} onChange={handleChange('Flawless')} value="FL" />} label="Flawless" />
+        <FormControlLabel control={<Checkbox checked={IF} onChange={handleChange('Internally Flawless')} value="IF" />} label="Internally Flawless" />
+        <FormControlLabel control={<Checkbox checked={VVS} onChange={handleChange('VVS')} value="VVS" />} label="VVS" />
+        <FormControlLabel control={<Checkbox checked={VS} onChange={handleChange('VS')} value="VS" />} label="VS" />
       </FormGroup>
     </FormControl> 
   );
@@ -131,7 +148,7 @@ export default function Chooser() {
 
   return (
     <React.Fragment>
-      <Typography gutterBottom>Color Chooser</Typography>
+      <Title>Filter Diamonds</Title>
       <ColorChooser/>
       <div className={classes.margin} />
       <Typography gutterBottom>Carat Chooser</Typography>
