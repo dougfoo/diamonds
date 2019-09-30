@@ -9,25 +9,23 @@ export default class Chart extends Component {
     super(props);
     this.state = {
       diamonds: [],
-      done: undefined
+      done: true,   // undefined if we start w/ loader icon
     };
   }
 
   componentDidMount() {
-    const remoteUrl = 'http://localhost:4000/diamonds';
-    const webpackUrl = '/diamonds';
-    const apiurl = process.env.PORT ? webpackUrl : remoteUrl;
+    // initially start w/ ?
+    // const remoteUrl = 'http://localhost:4000/diamonds';
+    // const webpackUrl = '/diamonds';
+    // const apiurl = process.env.PORT ? webpackUrl : remoteUrl;
 
-    // why wrap in setTimeout ?  mobile issue somewhere
-//    setTimeout(function(apiurl) {
-      axios.get(apiurl)
-          .then(response => {
-              this.setState({ diamonds: response.data, done: true});
-          })
-          .catch(function (error){
-              console.log(error);
-          })
-//      }, 0)
+    // axios.get(apiurl)
+    //     .then(response => {
+    //         this.setState({ diamonds: response.data, done: true});
+    //     })
+    //     .catch(function (error){
+    //         console.log(error);
+    //     })
   }
 
   render() {
@@ -65,7 +63,7 @@ export default class Chart extends Component {
                     parent: { border: "1px solid #ccc" }
                   }}
                   size={1}
-                  data={this.state.diamonds} x="carat" y="price" scale={{x: "linear", y: "linear"}}
+                  data={this.props.diamonds} x="carat" y="price" scale={{x: "linear", y: "linear"}}
             />
           </VictoryChart>  
         </div>  
