@@ -41,7 +41,24 @@ diamondRoutes.route('/q').post(function(req, res) {
     //        "CaratLow":1,"CaratHigh":3}
     // standard response formats
     console.log(qobj);
-    Diamond.find( {carat: { $gte: 3.00, $lte: 4.01}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+    console.log(qobj.CaratLow, qobj.CaratHigh);
+    keys = Object.keys(qobj);
+    trues = keys.filter(function(item) {   //true flags only
+        return (qobj[item] === true);
+    })
+    trues = trues.map(function(v) {   // rename (due to using name as variables before w/o spaces)
+        if (v === 'AstorIdeal') return 'Astor Ideal';
+        else if (v === 'VeryGood') return 'Very Good';
+        else return v;
+    });
+    colors = trues.filter(value => -1 !== ['D','E','F','G','H','I','J','K'].indexOf(value))   // into buckets
+    claritys = trues.filter(value => -1 !== ['FL','IF','VVS1','VVS2','VS1','VS2','SI1','SI2'].indexOf(value))
+    cuts = trues.filter(value => -1 !== ['Ideal','Good','Very Good','Astor Ideal'].indexOf(value))
+    console.log(colors, claritys, cuts);
+    Diamond.find( {carat: { $gte: qobj.CaratLow, $lte: qobj.CaratHigh}, color: { $in: colors},
+                   clarity: { $in: claritys }, cut: { $in: cuts }
+    },  
+        function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
         if (err) {
             console.log(err);
         } else {
