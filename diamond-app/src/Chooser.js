@@ -135,7 +135,7 @@ export default class Chooser extends Component {
     console.log('json to post: ',postStr);
     const remoteUrl = 'http://localhost:4000/diamonds/q/';
     const webpackUrl = '/diamonds/q/';
-    const apiurl = process.env.PORT ? webpackUrl : remoteUrl;
+    const apiurl = process.env.PORT ? remoteUrl : webpackUrl;
 
     console.log('axios ...', apiurl);
     axios.post(apiurl, this.state)
