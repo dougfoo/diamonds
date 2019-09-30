@@ -87,7 +87,7 @@ export function SecondaryListItems()  {
         <Fade in={open}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">About Diamonds</h2>
-            <p id="transition-modal-description">This site utilizes various technologies and data sources as a semi classic MERN stack.</p>
+            <p id="transition-modal-description">This site utilizes various technologies and data sources as a semi classic MERN.</p>
             <ul>
               <li>React.js front end (Material-UI)</li>
               <li>Victory Visulization (React Component)</li>
@@ -95,7 +95,7 @@ export function SecondaryListItems()  {
               <li>MongoDB object persistance</li>
               <li>Azure Machine Learning webservice</li>
             </ul>
-
+            <p>Env: {process.env.NODE_ENV}</p>
           </div>
         </Fade>
     </Modal>
