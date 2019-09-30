@@ -23,7 +23,8 @@ connection.once('open', function() {
 })
 
 diamondRoutes.route('/').get(function(req, res) {
-    Diamond.find( {carat: { $gte: 0.79, $lte: 1.21}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+//    Diamond.find( {carat: { $gte: 0.79, $lte: 1.21}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+    Diamond.find( {carat: { $gte: 1.11, $lte: 1.21}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
         if (err) {
             console.log(err);
         } else {
@@ -32,17 +33,21 @@ diamondRoutes.route('/').get(function(req, res) {
     });
 });
 
-/*
-    colors [ D,E,F,G,H,I,J,K ]
-    cut [Astor Ideal*, Ideal, Very Good, Good ]  *Astor is a brand naming?  Premium ?
-    clarity [FL, IF, VVS1, VVS2, VS1, VS2, SI1, SI2 ]
-    carats decimal 0.0->25.0
-*/
-diamondRoutes.route('/q/:q').get(function(req, res) {
-    const qobj = req.params.q;
-
+diamondRoutes.route('/q').post(function(req, res) {
+    const qobj = req.body;
+    // request json format:  {"D":true,"E":false,"F":false,"G":true,"H":false,"I":false,"J":false,"K":false,
+    //       "Ideal":true,"Good":false,"VeryGood":false,"AstorIdeal":true,
+    //        "FL":true,"IF":true,"VVS1":false,"VVS2":false,"VS1":false,"VS2":false,"SI1":false,"SI2":false,
+    //        "CaratLow":1,"CaratHigh":3}
+    // standard response formats
     console.log(qobj);
-    res.json(qobj);
+    Diamond.find( {carat: { $gte: 3.00, $lte: 4.01}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(diamonds);
+        }
+    });
 });
 
 diamondRoutes.route('/:id').get(function(req, res) {

@@ -122,6 +122,8 @@ const useStyles = makeStyles(theme => ({
 export default function DiamondDashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [diamonds, setDiamonds] = React.useState([]);
+    
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -180,7 +182,7 @@ export default function DiamondDashboard() {
             {/* Chart  remember xs phone, sm tablet, md desktop, lg big desktop */}
             <Grid item xs={12} md={8} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <Chooser/>
+                <Chooser diamondCB={setDiamonds}/>
               </Paper>
             </Grid>
             <Grid item xs={9} md={6} lg={5}>
@@ -190,7 +192,7 @@ export default function DiamondDashboard() {
             </Grid>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={classes.paper}>
-                <Chart/>
+                <Chart diamonds={diamonds}/>
               </Paper>
             </Grid>
             {/* Daily Note */}
@@ -202,7 +204,7 @@ export default function DiamondDashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <DiamondsTable />
+                <DiamondsTable diamonds={diamonds} />
               </Paper>
             </Grid>
           </Grid>

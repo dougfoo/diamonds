@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
@@ -10,20 +10,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Title from './Title';
 import NotReadyPopup from "./NotReadyPopup";
+import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
-const useStyles = makeStyles(theme => ({
-  margin: {
-    height: theme.spacing(0),
-  },
-  formControl: {
-      fontSize: 8, 
-  },
-  slider: {
-      width: 300, 
-      marginRight: 30,
-      marginLeft: 30,
-  },
-}));
 
 function ValueLabelComponent(props) {
   const { children, open, value } = props;
@@ -63,34 +52,52 @@ ValueLabelComponent.propTypes = {
     carats decimal 0.0->25.0
 */
 
-export default function Chooser() {  
-  const classes = useStyles();
-  const [state, setState] = React.useState({
-    D: true,
-    E: false,
-    F: false,
-    G: true,
-    H: false,
-    I: false,
-    J: false,
-    K: false,
-    Ideal: true,
-    Good: false,
-    VeryGood: false,
-    AstorIdeal: true,
-    FL: true,
-    IF: true,
-    VVS1: false,
-    VVS2: false,
-    VS1: false,
-    VS2: false,
-    SI1: false,
-    SI2: false,
-    CaratLow: 1.0,
-    CaratHigh: 3.0
-  });
+export default class Chooser extends Component {  
+  // styles = makeStyles()....
+  // classses = styles() ... produces a Hook error !?
+  classes = makeStyles(theme => ({
+    margin: {
+      height: theme.spacing(0),
+    },
+    formControl: {
+        fontSize: 8, 
+    },
+    slider: {
+        width: 300, 
+        marginRight: 30,
+        marginLeft: 30,
+    },
+  }));
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      D: true,
+      E: false,
+      F: false,
+      G: true,
+      H: false,
+      I: false,
+      J: false,
+      K: false,
+      Ideal: true,
+      Good: false,
+      VeryGood: false,
+      AstorIdeal: true,
+      FL: true,
+      IF: true,
+      VVS1: false,
+      VVS2: false,
+      VS1: false,
+      VS2: false,
+      SI1: false,
+      SI2: false,
+      CaratLow: 1.0,
+      CaratHigh: 3.0  
+    };
+  }
 
-  const marks = [
+  marks = [
     {
       value: 0.5,
       label: '0.5',
@@ -117,55 +124,74 @@ export default function Chooser() {
     },
   ];
 
-  const handleChange = name => event => {
-    setState({ ...state, [name.k]: event.target.checked });
+  handleChange = name => event => {
+    this.setState({ ...this.state, [name.k]: event.target.checked });
     console.log('change, name:',name);
   };
 
-  const handleSubmit = event => {
-    console.log('submit filter, state:',state);
-    let postStr = JSON.stringify(state);
-    console.log('post: ',postStr);
+  handleSubmit = event => {
+    console.log('submit filter, state:', this.state);
+    let postStr = JSON.stringify(this.state);
+    console.log('json to post: ',postStr);
+    const remoteUrl = 'http://localhost:4000/diamonds/q/';
+    const webpackUrl = '/diamonds/q/';
+    const apiurl = process.env.PORT ? webpackUrl : remoteUrl;
+
+    console.log('axios ...', apiurl);
+    axios.post(apiurl, this.state)
+        .then(response => {
+            let diamonds = response.data;
+            // set this somewhere ?
+            this.props.diamondCB(diamonds);
+            console.log(diamonds);
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+
+    console.log('axios ... done ?');
   };
 
-  const handleCaratChange = (event, value) => {
-    setState({ ...state, CaratLow: value[0] , CaratHigh: value[1] });
+  handleCaratChange = (event, value) => {
+    this.setState({ ...this.state, CaratLow: value[0] , CaratHigh: value[1] });
     console.log('carat change, value:',event, value);
   }
 
-  const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2, 
-           CaratLow, CaratHigh } = state;
-  const colors = { D:D, E:E, F:F, G:G, H:H, I:I, J:J, K:K };  // faster way to do this?
-  const cuts = { AstorIdeal:AstorIdeal,Ideal:Ideal,Good:Good,VeryGood:VeryGood };
-  const claritys = { FL:FL, IF:IF, VVS1:VVS1, VVS2:VVS2, VS1:VS1, VS2:VS2, SI1:SI1, SI2:SI2 };
-
-  return (
-    <React.Fragment>
-      <Title>Filter Diamonds</Title>
-      <FormControl component="fieldset" className={classes.formControl} >
-        <FormGroup row={true} variant='subtitle2'>
-          <Typography gutterBottom variant='subtitle2'>Color</Typography>    
-          {Object.keys(colors).map((k,v) => (
-              <FormControlLabel key={k} control={<Checkbox checked={colors[k]} onChange={handleChange({k})} value={colors[k]} />} label={k} />
-          ))}
-          <Typography gutterBottom variant='subtitle2'>Cut</Typography>    
-          {Object.keys(cuts).map((k,v) => (
-              <FormControlLabel key={k} control={<Checkbox checked={cuts[k]} onChange={handleChange({k})} value={cuts[k]} />} label={k} />
-          ))}
-          <Typography gutterBottom variant='subtitle2'>Clarity</Typography>    
-          {Object.keys(claritys).map((k,v) => (
-              <FormControlLabel key={k} control={<Checkbox checked={claritys[k]} onChange={handleChange({k})} value={claritys[k]} />} label={k} />
-          ))}
-          <Typography gutterBottom variant='subtitle2'>Carat Chooser</Typography>
-          <Slider marks={marks} valueLabelDisplay="on"
-            ValueLabelComponent={ValueLabelComponent} onChange={handleCaratChange} 
-            min={0.5} max={4.0} step={0.1} className={classes.slider}
-            defaultValue={[1,3]} 
-          />
-          <NotReadyPopup button="Filter" msg="This feature is in development" debug={JSON.stringify(state)} accept="OK"/>
-          {/* <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Apply</Button> */}
-        </FormGroup>
-      </FormControl> 
-    </React.Fragment>
-  );
+  render() { 
+    const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2,
+               CaratLow, CaratHigh } = this.state;
+    const colors = { D:D, E:E, F:F, G:G, H:H, I:I, J:J, K:K };  // faster way to do this?
+    const cuts = { AstorIdeal:AstorIdeal,Ideal:Ideal,Good:Good,VeryGood:VeryGood };
+    const claritys = { FL:FL, IF:IF, VVS1:VVS1, VVS2:VVS2, VS1:VS1, VS2:VS2, SI1:SI1, SI2:SI2 };
+    
+    return (
+      <React.Fragment>
+        <Title>Filter Diamonds</Title>
+        <FormControl component="fieldset" className={this.classes.formControl} >
+          <FormGroup row={true} variant='subtitle2'>
+            <Typography gutterBottom variant='subtitle2'>Color</Typography>    
+            {Object.keys(colors).map((k,v) => (
+                <FormControlLabel key={k} control={<Checkbox checked={colors[k]} onChange={this.handleChange({k})} value={colors[k]} />} label={k} />
+            ))}
+            <Typography gutterBottom variant='subtitle2'>Cut</Typography>    
+            {Object.keys(cuts).map((k,v) => (
+                <FormControlLabel key={k} control={<Checkbox checked={cuts[k]} onChange={this.handleChange({k})} value={cuts[k]} />} label={k} />
+            ))}
+            <Typography gutterBottom variant='subtitle2'>Clarity</Typography>    
+            {Object.keys(claritys).map((k,v) => (
+                <FormControlLabel key={k} control={<Checkbox checked={claritys[k]} onChange={this.handleChange({k})} value={claritys[k]} />} label={k} />
+            ))}
+            <Typography gutterBottom variant='subtitle2'>Carat Chooser</Typography>
+            <Slider marks={this.marks} valueLabelDisplay="on"
+              ValueLabelComponent={ValueLabelComponent} onChange={this.handleCaratChange} 
+              min={0.5} max={4.0} step={0.1} className={this.classes.slider}
+              defaultValue={[1,3]} 
+            />
+            {/* <NotReadyPopup button="Filter" msg="This feature is in development" debug={JSON.stringify(this.state)} accept="OK"/> */}
+            <Button variant="contained" color="primary" onClick={this.handleSubmit} className={this.classes.button}>Apply</Button> 
+          </FormGroup>
+        </FormControl> 
+      </React.Fragment>
+    );
+  }
 }
