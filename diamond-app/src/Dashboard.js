@@ -23,6 +23,9 @@ import Daily from './Daily';
 import Pricer from './Pricer';
 import Chooser from './Chooser';
 import DiamondsTable from "./DiamondsTable";
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 function Copyright() {
   return (
@@ -107,6 +110,17 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mpaper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -123,6 +137,7 @@ export default function DiamondDashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [diamonds, setDiamonds] = React.useState([]);  // or [] 
+  const [about, setAbout] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -130,10 +145,48 @@ export default function DiamondDashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleAboutOpen = () => {
+    setAbout(true);
+  }
+  const handleAboutClose = () => {
+    setAbout(false);
+  }
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <div className={classes.root}>
+    <div>
+      <div><Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={about}
+          onClose={handleAboutClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 300,
+          }}
+        >
+          <Fade in={about}>
+            <div className={classes.mpaper}>
+              <h2 id="transition-modal-title">About Diamonds</h2>
+              <p id="transition-modal-description">This site utilizes various technologies and data sources as a semi classic MERN.</p>
+              <ul>
+                <li>React.js front end (Material-UI)</li>
+                <li>Victory Visulization (React Component)</li>
+                <li>Express.js backend</li>
+                <li>MongoDB object persistance</li>
+                <li>Azure Machine Learning webservice</li>
+              </ul>
+              <p>Env: {process.env.NODE_ENV}</p>
+            </div>
+          </Fade>
+      </Modal>
+      </div>
+      <div className={classes.root}>
+
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
@@ -151,7 +204,7 @@ export default function DiamondDashboard() {
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={0} color="secondary">
-              <HelpIcon />
+              <HelpIcon onClick={handleAboutOpen} />
             </Badge>
           </IconButton>
         </Toolbar>
@@ -172,7 +225,7 @@ export default function DiamondDashboard() {
         <List>{mainListItems}</List>
         <Divider />
         <List>
-          <SecondaryListItems/>
+          <SecondaryListItems aboutOpen={handleAboutOpen}/>
         </List>
       </Drawer>
       <main className={classes.content}>
@@ -211,6 +264,7 @@ export default function DiamondDashboard() {
         </Container>
         <Copyright />
       </main>
+    </div>
     </div>
   );
 }
