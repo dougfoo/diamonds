@@ -22,9 +22,23 @@ connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
 
+// diamondRoutes.route('/').get(function(req, res) {
+//     Diamond.find( {carat: { $gte: 0.7, $lte: 1.5}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.json(diamonds);
+//         }
+//     });
+// });
+
 diamondRoutes.route('/').get(function(req, res) {
-//    Diamond.find( {carat: { $gte: 0.79, $lte: 1.21}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
-    Diamond.find( {carat: { $gte: 1.11, $lte: 1.21}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+    Diamond.aggregate(
+                 [
+                //    { $match: { carat: { $gte: 0.5, $lte: 2.5}, }},
+                   { $group: {_id : {price: { $multiply: [ { $trunc: {$divide: ['$price',500]}},500]}, carat : '$carat',cut:'$cut',color: '$color',clarity: '$clarity'}, count:{$sum :1}}},
+                 ],  
+        function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
         if (err) {
             console.log(err);
         } else {
@@ -32,6 +46,7 @@ diamondRoutes.route('/').get(function(req, res) {
         }
     });
 });
+
 
 diamondRoutes.route('/q').post(function(req, res) {
     const qobj = req.body;
@@ -55,9 +70,13 @@ diamondRoutes.route('/q').post(function(req, res) {
     claritys = trues.filter(value => -1 !== ['FL','IF','VVS1','VVS2','VS1','VS2','SI1','SI2'].indexOf(value))
     cuts = trues.filter(value => -1 !== ['Ideal','Good','Very Good','Astor Ideal'].indexOf(value))
     console.log(colors, claritys, cuts);
-    Diamond.find( {carat: { $gte: qobj.CaratLow, $lte: qobj.CaratHigh}, color: { $in: colors},
+    Diamond.aggregate( 
+        [{ $match: {carat: { $gte: qobj.CaratLow, $lte: qobj.CaratHigh}, color: { $in: colors},
                    clarity: { $in: claritys }, cut: { $in: cuts }
-    },  
+         }},
+         {
+           $group: {_id : {price: { $multiply: [ { $trunc: {$divide: ['$price',500]}},500]}, carat : '$carat',cut:'$cut',color: '$color',clarity: '$clarity'}, count:{$sum :1}}},
+         ],
         function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
         if (err) {
             console.log(err);

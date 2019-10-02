@@ -8,30 +8,13 @@ export default class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      diamonds: [],
-      done: true,   // undefined if we start w/ loader icon
     };
-  }
-
-  componentDidMount() {
-    // initially start w/ ?
-    // const remoteUrl = 'http://localhost:4000/diamonds';
-    // const webpackUrl = '/diamonds';
-    // const apiurl = process.env.PORT ? webpackUrl : remoteUrl;
-
-    // axios.get(apiurl)
-    //     .then(response => {
-    //         this.setState({ diamonds: response.data, done: true});
-    //     })
-    //     .catch(function (error){
-    //         console.log(error);
-    //     })
   }
 
   render() {
     return (
       <React.Fragment>
-     {!this.state.done ? (
+     {this.props.diamonds.length === 0 ? (
         <div>
           <Typography gutterBottom variant='h6' color='secondary'>Loading... 
           </Typography>
@@ -53,17 +36,17 @@ export default class Chart extends Component {
             <VictoryScatter
                   style={{
                     data: { 
-                      fill: ({datum}) => datum.color === 'D' ? "#FF0000" : 
-                          datum.color === 'E' ? "#FF8000" : 
-                          datum.color === 'F' ? "#FFFF00" : 
-                          datum.color === 'G' ? "#80FF00" : 
-                          datum.color === 'H' ? "#3399FF" : 
+                      fill: ({datum}) => datum._id.color === 'D' ? "#FF0000" : 
+                          datum._id.color === 'E' ? "#FF8000" : 
+                          datum._id.color === 'F' ? "#FFFF00" : 
+                          datum._id.color === 'G' ? "#80FF00" : 
+                          datum._id.color === 'H' ? "#3399FF" : 
                               "#000000",
                     },
                     parent: { border: "1px solid #ccc" }
                   }}
                   size={1}
-                  data={this.props.diamonds} x="carat" y="price" scale={{x: "linear", y: "linear"}}
+                  data={this.props.diamonds} x="_id.carat" y="_id.price" scale={{x: "linear", y: "linear"}}
             />
           </VictoryChart>  
         </div>  

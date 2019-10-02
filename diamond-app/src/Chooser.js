@@ -13,7 +13,6 @@ import NotReadyPopup from "./NotReadyPopup";
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
-
 function ValueLabelComponent(props) {
   const { children, open, value } = props;
   const popperRef = React.useRef(null);
@@ -72,12 +71,13 @@ export default class Chooser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      done: true,   // undefined if we start w/ loader icon
       D: true,
       E: true,
       F: true,
       G: true,
-      H: false,
-      I: false,
+      H: true,
+      I: true,
       J: false,
       K: false,
       AstorIdeal: false,
@@ -129,13 +129,30 @@ export default class Chooser extends Component {
     console.log('change, name:',name);
   };
 
+  componentDidMount() {
+    this.handleSubmit();
+    // const remoteUrl = 'http://localhost:4000/diamonds/';
+    // const webpackUrl = '/diamonds/';
+    // const apiurl = process.env.NODE_ENV === 'production' ? webpackUrl : remoteUrl;
+
+    // console.log('init loading diamond file....')
+    // axios.get(apiurl)
+    //     .then(response => {
+    //         this.props.diamondCB(response.data);
+    //         console.log('init load done: ');
+    //       })
+    //     .catch(function (error){
+    //         console.log(error);
+    //     })
+  }
+
   handleSubmit = event => {
     console.log('submit filter, state:', this.state);
     let postStr = JSON.stringify(this.state);
     console.log('json to post: ',postStr);
     const remoteUrl = 'http://localhost:4000/diamonds/q/';
     const webpackUrl = '/diamonds/q/';
-    const apiurl = process.env.PORT ? remoteUrl : webpackUrl;
+    const apiurl = process.env.NODE_ENV === 'production' ? webpackUrl : remoteUrl;
 
     console.log('axios ...', apiurl);
     axios.post(apiurl, this.state)

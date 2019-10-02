@@ -8,27 +8,14 @@ export default class DiamondsTable extends Component {
     this.state = {diamonds: []};
   }
 
-  componentDidMount() {
-    // const remoteUrl = 'http://localhost:4000/diamonds';
-    // const webpackUrl = '/diamonds';
-    // const apiurl = process.env.PORT ? webpackUrl : remoteUrl;
-
-    // axios.get(apiurl)
-    //     .then(response => {
-    //         this.setState({ diamonds: response.data });
-    //     })
-    //     .catch(function (error){
-    //         console.log(error);
-    //     })
-  }
-
   render() {
     const columns = [
-      { title: 'Price', field: 'price', type: 'currency' },
-      { title: 'Carat', field: 'carat' },
-      { title: 'Cut', field: 'cut' },
-      { title: 'Clarity', field: 'clarity' },
-      { title: 'Color', field: 'color' },
+      { title: 'Price', field: '_id.price', type: 'currency' },
+      { title: 'Carat', field: '_id.carat' },
+      { title: 'Cut', field: '_id.cut' },
+      { title: 'Clarity', field: '_id.clarity' },
+      { title: 'Color', field: '_id.color' },
+      { title: 'Count', field: 'count' },
     ];
 
     return (

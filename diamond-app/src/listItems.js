@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-
+import Filter7Icon from '@material-ui/icons/Filter7';
 
 export const mainListItems = (
   <div>
@@ -28,6 +28,12 @@ export const mainListItems = (
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Pricing  (TBD)" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <Filter7Icon/>
+      </ListItemIcon>
+      <ListItemText primary="Data (TBD)" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
