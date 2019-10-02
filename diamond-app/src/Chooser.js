@@ -71,7 +71,6 @@ export default class Chooser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      done: true,   // undefined if we start w/ loader icon
       D: true,
       E: true,
       F: true,
@@ -126,27 +125,17 @@ export default class Chooser extends Component {
 
   handleChange = name => event => {
     this.setState({ ...this.state, [name.k]: event.target.checked });
+    // slight bug here.. events are firing too fast, submit happens many times
+    this.handleSubmit();    
     console.log('change, name:',name);
   };
 
   componentDidMount() {
     this.handleSubmit();
-    // const remoteUrl = 'http://localhost:4000/diamonds/';
-    // const webpackUrl = '/diamonds/';
-    // const apiurl = process.env.NODE_ENV === 'production' ? webpackUrl : remoteUrl;
-
-    // console.log('init loading diamond file....')
-    // axios.get(apiurl)
-    //     .then(response => {
-    //         this.props.diamondCB(response.data);
-    //         console.log('init load done: ');
-    //       })
-    //     .catch(function (error){
-    //         console.log(error);
-    //     })
   }
 
   handleSubmit = event => {
+    this.props.diamondCB([]);  // reset state for loading.. msg
     console.log('submit filter, state:', this.state);
     let postStr = JSON.stringify(this.state);
     console.log('json to post: ',postStr);
@@ -158,9 +147,7 @@ export default class Chooser extends Component {
     axios.post(apiurl, this.state)
         .then(response => {
             let diamonds = response.data;
-            // set this somewhere ?
             this.props.diamondCB(diamonds);
-            console.log(diamonds);
         })
         .catch(function (error){
             console.log(error);
@@ -171,6 +158,7 @@ export default class Chooser extends Component {
 
   handleCaratChange = (event, value) => {
     this.setState({ ...this.state, CaratLow: value[0] , CaratHigh: value[1] });
+    this.handleSubmit();
     console.log('carat change, value:',event, value);
   }
 
@@ -204,8 +192,7 @@ export default class Chooser extends Component {
               min={0.5} max={4.0} step={0.1} className={this.classes.slider}
               defaultValue={[1,3]} 
             />
-            {/* <NotReadyPopup button="Filter" msg="This feature is in development" debug={JSON.stringify(this.state)} accept="OK"/> */}
-            <Button variant="contained" color="primary" onClick={this.handleSubmit} className={this.classes.button}>Apply</Button> 
+            {/* <Button variant="contained" color="primary" onClick={this.handleSubmit} className={this.classes.button}>Apply</Button>  */}
           </FormGroup>
         </FormControl> 
       </React.Fragment>
