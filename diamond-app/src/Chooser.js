@@ -178,14 +178,20 @@ export default class Chooser extends Component {
             {Object.keys(colors).map((k,v) => (
                 <FormControlLabel key={k} control={<Checkbox checked={colors[k]} onChange={this.handleChange({k})} value={colors[k]} />} label={k} />
             ))}
+          </FormGroup>
+          <FormGroup row={true} variant='subtitle2'>
             <Typography gutterBottom variant='subtitle2'>Cut</Typography>    
             {Object.keys(cuts).map((k,v) => (
                 <FormControlLabel key={k} control={<Checkbox checked={cuts[k]} onChange={this.handleChange({k})} value={cuts[k]} />} label={k} />
             ))}
+          </FormGroup>
+          <FormGroup row={true} variant='subtitle2'>
             <Typography gutterBottom variant='subtitle2'>Clarity</Typography>    
             {Object.keys(claritys).map((k,v) => (
                 <FormControlLabel key={k} control={<Checkbox checked={claritys[k]} onChange={this.handleChange({k})} value={claritys[k]} />} label={k} />
             ))}
+          </FormGroup>
+          <FormGroup row={true} variant='subtitle2'>
             <Typography gutterBottom variant='subtitle2'>Carat Chooser</Typography>
             <Slider marks={this.marks} valueLabelDisplay="on"
               ValueLabelComponent={ValueLabelComponent} onChange={this.handleCaratChange} 
