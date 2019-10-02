@@ -30,9 +30,10 @@ export default class Chart extends Component {
             <font color="80FF00">G</font>, 
             <font color="3399FF">H</font>, 
             <font color="000000"></font>Other)</Typography>    
-          <VictoryChart height={200} width={400} >  
+          <VictoryChart height={200} width={400}   padding={{ top:10, bottom: 20, left: 40, right: 10 }} >  
             <VictoryAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } }} />
-            <VictoryAxis dependentAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } }} />
+            <VictoryAxis dependentAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } 
+                  }} tickFormat={(t) => "$" + `${(t.toLocaleString('en-US'))}`} />
             <VictoryScatter
                   style={{
                     data: { 
