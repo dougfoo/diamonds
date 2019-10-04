@@ -137,6 +137,7 @@ export default function DiamondDashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [diamonds, setDiamonds] = React.useState([]);  // or [] 
+  const [prices, setPrices] = React.useState([]);  // or [] 
   const [about, setAbout] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -233,29 +234,29 @@ export default function DiamondDashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart  remember xs phone, sm tablet, md desktop, lg big desktop */}
-            <Grid item xs={12} md={9} lg={7}>
-              <Paper className={classes.paper}>
-                <Chooser diamondCB={setDiamonds}/>
-              </Paper>
-            </Grid>
-            <Grid item xs={8} md={6} lg={5}>
-              <Paper className={classes.paper}>
-                <Pricer/>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={8} lg={9}>
+            {/* <Grid item xs={12} md={7} lg={7}>
               <Paper className={classes.paper}>
                 <Chart diamonds={diamonds}/>
               </Paper>
             </Grid>
+            <Grid item xs={6} md={5} lg={4}>
+              <Paper className={classes.paper}>
+                <Chooser diamondCB={setDiamonds}/>
+              </Paper>
+            </Grid> */}
+            <Grid item xs={12} md={9} lg={7}>
+              <Paper className={classes.paper}>
+                <Pricer/>
+              </Paper>
+            </Grid>
             {/* Daily Note */}
-            <Grid item xs={6} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
+            <Grid item xs={8} md={6} lg={4}>
+              <Paper className={classes.paper}>
                 <Daily />
               </Paper>
             </Grid>
             {/* All Diamonds */}
-            <Grid item xs={12}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
                 <DiamondsTable diamonds={diamonds} />
               </Paper>

@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -22,16 +23,6 @@ connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
 
-// diamondRoutes.route('/').get(function(req, res) {
-//     Diamond.find( {carat: { $gte: 0.7, $lte: 1.5}},  function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.json(diamonds);
-//         }
-//     });
-// });
-
 diamondRoutes.route('/').get(function(req, res) {
     Diamond.aggregate(
                  [
@@ -47,6 +38,44 @@ diamondRoutes.route('/').get(function(req, res) {
     });
 });
 
+diamondRoutes.route('/price').post(function(req, res) {
+    const qobj = req.body;
+    console.log(qobj);
+
+    let apiurl = 'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/8a04a2c520414b569d010b08e93183ca/execute?api-version=2.0&details=true';
+
+    const reqJson = {
+        "Inputs": {
+            "input1": {
+            "ColumnNames": [ "id", "carat", "color", "cut", "clarity","price" ],
+            "Values": [
+                [  "0", "1", "D", "Ideal", "VS1", "0" ]       
+            ]
+            }
+        }
+    };
+    console.log('axios ...', apiurl, reqJson);
+    axios.post(apiurl, reqJson, 
+        { headers: {
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer xEiYevI6XBSLgc7GkYPCLtFL1yMbcYKPNNI4V9/N40Amdi/AU8AnNl1/6ZxKs3x50PAWMoiXgY36rlZjMNwkgQ=='
+            }
+        })
+        .then(response => {
+            console.log(JSON.stringify(response.data));
+
+            /* need to return data set */
+            res.json([
+                {'price':123456.78, 'model':'XGB'},
+                {'price':298256.22, 'model':'NN'},
+                {'price':154202.88, 'model':'LR'}
+            ]);
+        })
+        .catch(function (error){
+            console.log(error);
+        });
+    console.log('axios ... done ?');
+});
 
 diamondRoutes.route('/q').post(function(req, res) {
     const qobj = req.body;
