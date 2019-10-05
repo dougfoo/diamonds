@@ -155,31 +155,6 @@ const color = [
     {      value: 'K',      label: 'K',    },
 ];
 
-function ModelChooser(props) {
-    const [state, setState] = React.useState({
-      LR: true,
-      DT: false,
-      XGB: true,
-    });
-  
-    const handleModelChange = name => event => {
-      setState({ ...state, [name]: event.target.checked });
-      console.log(event, name);
-    };
-  
-    const { LR, NN, XGB } = state
-  
-    return (
-      <FormControl component="fieldset" >
-        <Typography gutterBottom>Prediction Models</Typography>    
-        <FormGroup row >
-          <FormControlLabel control={<Checkbox checked={LR} onChange={handleModelChange('LR')} value="LR" />} label="LinRegression" />
-          <FormControlLabel control={<Checkbox checked={NN} onChange={handleModelChange('NN')} value="NN" />} label=" DeepNet" />
-          <FormControlLabel control={<Checkbox checked={XGB} onChange={handleModelChange('XGB')} value="XGB" />} label=" XGBoost" />
-        </FormGroup>
-      </FormControl> 
-    );
-}
 
 export default function Pricer(props) {
   const classes = useStyles();
@@ -189,6 +164,13 @@ export default function Pricer(props) {
     carat: 1.1,
     cut: '',
     price: 0.0,
+    XGB: true,
+    LR: true,
+    NN: false,
+    LRprice: 0.0,
+    NNprice: 0.0,
+    XGBprice: 0.0,
+    showPrices: false,
   });  
 
   const onPriceRequest = e => {
@@ -209,7 +191,13 @@ export default function Pricer(props) {
         .then(response => {
             let respJson = response.data;
             console.log(respJson);
-//            setValues({ price: 10000.00 });
+            setValues(oldValues => ({
+                ...oldValues,
+                LRprice: respJson.filter(function(entry) {return entry.model === 'LR'})[0].price,
+                NNprice: respJson.filter(function(entry) {return entry.model === 'NN'})[0].price,
+                XGBprice: respJson.filter(function(entry) {return entry.model === 'XGB'})[0].price,
+                showPrices: true 
+            }));
         })
         .catch(function (error){
             console.log(error);
@@ -217,13 +205,20 @@ export default function Pricer(props) {
 
     console.log('axios ... done ?');
   }
-  
+
   const handleChange = name => event => {
-    setValues(oldValues => ({
-      ...oldValues,
-      [name]: event.target.value,
-    }));
-    //       setState({ ...state, [name]: event.target.checked });
+    if (typeof(event.target.checked) !== 'undefined') {
+      setValues(oldValues => ({
+        ...oldValues,
+        [name]: event.target.checked,
+      }));
+    }
+    else {
+      setValues(oldValues => ({
+        ...oldValues,
+        [name]: event.target.value,
+      }));
+    }
     console.log(event);
   };
 
@@ -287,23 +282,43 @@ export default function Pricer(props) {
             </MenuItem>
             ))}
         </TextField>
-        <ModelChooser/>
+        <FormControl component="fieldset" >
+          <Typography gutterBottom>Prediction Models</Typography>    
+          <FormGroup row >
+            <FormControlLabel control={<Checkbox checked={values.LR} onChange={handleChange('LR')} value={values.LR} />} label="LinRegression" />
+            <FormControlLabel control={<Checkbox checked={values.LRNN} onChange={handleChange('NN')} value={values.NN} />} label=" DeepNet" />
+            <FormControlLabel control={<Checkbox checked={values.XGB} onChange={handleChange('XGB')} value={values.XGB} />} label=" XGBoost" />
+          </FormGroup>
+        </FormControl> 
         {/* <NotReadyPopup msg="Pricer is coming soon" button="Price" accept="Accept Foo Apologies" /> */}
         <Button variant="contained" color="primary" onClick={onPriceRequest} className={classes.button}>Price</Button>
       </FormGroup>
 
-      {/* If results render paper */}
-      <Paper className={classes.paper}>
-        <Typography variant="title" display='block' style={{ color: "#D00" }}>
-          Price Estimate: $8333  Model: Neural Network
-        </Typography>
-        <Typography variant="title"display='block'  style={{ color: "#D00" }}>
-          Price Estimate: $7333  Model: Gradient Boost
-        </Typography>
-        <Typography variant="title"display='block'  style={{ color: "#D00" }}>
-          Price Estimate: $6333  Model: Linear Regression
-        </Typography>
-      </Paper>
+      { values.showPrices === true ? (
+        <Paper className={classes.paper}>
+          <Typography variant="title" display='block' style={{ color: "Indigo" }}>
+            Price Estimates
+          </Typography>
+          { values.LR == true ? (
+            <Typography variant="title"display='block'  style={{ color: "Blue" }}>
+              ${values.LRprice} - Model: Linear Regression
+            </Typography>
+          ) : (<Typography/>)
+          }
+          { values.NN === true ? (
+            <Typography variant="title" display='block' style={{ color: "Blue" }}>
+              ${values.NNprice} - Model: Neural Network
+            </Typography>
+          ) : (<Typography/>)
+          }
+          { values.XGB == true ? (
+            <Typography variant="title"display='block'  style={{ color: "Blue" }}>
+              ${values.XGBprice} - Model: Gradient Boost
+            </Typography>
+          ) : (<Typography/>)          
+          }
+        </Paper>
+      ) : ( <Paper/> ) } 
     </React.Fragment>
   );
 }
