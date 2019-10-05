@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import MaterialTable from 'material-table';
 
 export default class DiamondsTable extends Component {

@@ -38,43 +38,72 @@ diamondRoutes.route('/').get(function(req, res) {
     });
 });
 
-diamondRoutes.route('/price').post(function(req, res) {
-    const qobj = req.body;
-    console.log(qobj);
+predictors = [
+    {
+        'model': 'XGB',
+        'url':  'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/aeeefa3a88674cb0a3466267161bd286/execute?api-version=2.0&details=true',
+        'token': 'Bearer DkYNqVXmfmxMVXpWu92zSdyc5oH/XvtWWlMGQNr72I/ul37tC/NOYr8QHX7mrN81li8OkK4MyPP2xDP6KAGcWg=='
+    },
+    {
+        'model': 'LR',
+        'url':  'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/8a04a2c520414b569d010b08e93183ca/execute?api-version=2.0&details=true',
+        'token': 'Bearer xEiYevI6XBSLgc7GkYPCLtFL1yMbcYKPNNI4V9/N40Amdi/AU8AnNl1/6ZxKs3x50PAWMoiXgY36rlZjMNwkgQ=='
+    },
+    {
+        'model': 'NN',
+        'url':  'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/1ae6d8f9651b4b9db88eab7a8fdc546a/execute?api-version=2.0&details=true',
+        'token': 'Bearer YXJaBcHAMvM+gHyr9qJqlJfn8nK/EgH0Nh3OCTKFR/MWN22tWlauuZmLSwW5iuqMX7zlL5pP2SV0KniiW+SO1w=='
+    },          
+];
 
-    let apiurl = 'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/8a04a2c520414b569d010b08e93183ca/execute?api-version=2.0&details=true';
+async function callAzureML(apiurl, token, reqJson) {
+    console.log('axios ...', apiurl, reqJson, token);
+    return axios.post(apiurl, reqJson, 
+        { headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+            }
+        })
+        .catch(function (error){
+            console.log(error);
+        });
+}
+
+diamondRoutes.route('/price').post(async function(req, res) {
+    const qobj = req.body;
 
     const reqJson = {
         "Inputs": {
             "input1": {
             "ColumnNames": [ "id", "carat", "color", "cut", "clarity","price" ],
             "Values": [
-                [  "0", "1", "D", "Ideal", "VS1", "0" ]       
+                [  "0", qobj.carat, qobj.color === '' ? '0' : qobj.color, 
+                    qobj.cut === '' ? '0' : qobj.cut, 
+                    qobj.clarity === '' ? '0' : qobj.clarity, "0" ]       
             ]
             }
         }
     };
-    console.log('axios ...', apiurl, reqJson);
-    axios.post(apiurl, reqJson, 
-        { headers: {
-            'Content-Type': 'application/json',
-            'Authorization':'Bearer xEiYevI6XBSLgc7GkYPCLtFL1yMbcYKPNNI4V9/N40Amdi/AU8AnNl1/6ZxKs3x50PAWMoiXgY36rlZjMNwkgQ=='
-            }
-        })
-        .then(response => {
-            console.log(JSON.stringify(response.data));
+    console.log('price processed to: ',reqJson);    
 
-            /* need to return data set */
-            res.json([
-                {'price':123456.78, 'model':'XGB'},
-                {'price':298256.22, 'model':'NN'},
-                {'price':154202.88, 'model':'LR'}
-            ]);
-        })
-        .catch(function (error){
-            console.log(error);
-        });
-    console.log('axios ... done ?');
+    // format outputs 
+
+    let resp0 = await callAzureML(predictors[0].url, predictors[0].token, reqJson);
+    let resp1 = await callAzureML(predictors[1].url, predictors[1].token, reqJson);
+    let resp2 = await callAzureML(predictors[2].url, predictors[2].token, reqJson);
+    console.log('resp.data: ', JSON.stringify(resp0.data));
+    console.log('resp.data1: ', JSON.stringify(resp1.data));
+    console.log('resp.data2: ', JSON.stringify(resp2.data));
+
+    // reformat to simple table [{model: xyz, price: 123},...]
+    resp = [
+        { price: resp0.data.Results.output1.value.Values[0][6], model: 'XGB' }, 
+        { price: resp1.data.Results.output1.value.Values[0][6], model: 'LR' },
+        { price: resp2.data.Results.output1.value.Values[0][6], model: 'NN' }
+    ];
+
+    res.json(resp);
+    console.log('axios resp: ', resp);
 });
 
 diamondRoutes.route('/q').post(function(req, res) {

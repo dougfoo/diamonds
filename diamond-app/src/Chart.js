@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {  VictoryChart,  VictoryAxis, VictoryScatter } from 'victory';
-import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
 import ReactLoading from "react-loading";
 
@@ -33,7 +32,7 @@ export default class Chart extends Component {
           <VictoryChart height={200} width={400}   padding={{ top:10, bottom: 20, left: 40, right: 10 }} >  
             <VictoryAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } }} />
             <VictoryAxis dependentAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } 
-                  }} tickFormat={(t) => "$" + `${(t.toLocaleString('en-US'))}`} />
+                  }} tickFormat={(t) => `${(t.toLocaleString('en-US', { style: 'currency', currency: 'USD' }))}`} />
             <VictoryScatter
                   style={{
                     data: { 

@@ -10,7 +10,6 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import NotReadyPopup from "./NotReadyPopup";
 import axios from 'axios';
 /*
   Headers for webservice, 
@@ -193,9 +192,9 @@ export default function Pricer(props) {
             console.log(respJson);
             setValues(oldValues => ({
                 ...oldValues,
-                LRprice: respJson.filter(function(entry) {return entry.model === 'LR'})[0].price,
-                NNprice: respJson.filter(function(entry) {return entry.model === 'NN'})[0].price,
-                XGBprice: respJson.filter(function(entry) {return entry.model === 'XGB'})[0].price,
+                LRprice: Number(respJson.filter(function(entry) {return entry.model === 'LR'})[0].price),
+                NNprice: Number(respJson.filter(function(entry) {return entry.model === 'NN'})[0].price),
+                XGBprice: Number(respJson.filter(function(entry) {return entry.model === 'XGB'})[0].price),
                 showPrices: true 
             }));
         })
@@ -206,7 +205,13 @@ export default function Pricer(props) {
     console.log('axios ... done ?');
   }
 
+  const handleChange2 = name => event => {
+    console.log(name, event);
+    setValues({ ...values, [name]: event.target.value });
+  };
+
   const handleChange = name => event => {
+    console.log(name, event);
     if (typeof(event.target.checked) !== 'undefined') {
       setValues(oldValues => ({
         ...oldValues,
@@ -227,7 +232,7 @@ export default function Pricer(props) {
       <Title>Price Your Diamond</Title>
       <FormGroup className={classes.formGroup} >
         <TextField
-            id="standard-number" label="Carats" value={values.carat} onChange={handleChange}
+            id="standard-number" label="Carats" value={values.carat} onChange={handleChange2('carat')}
             type="number" className={classes.textField}
             InputLabelProps={{
                 shrink: true,
@@ -290,30 +295,29 @@ export default function Pricer(props) {
             <FormControlLabel control={<Checkbox checked={values.XGB} onChange={handleChange('XGB')} value={values.XGB} />} label=" XGBoost" />
           </FormGroup>
         </FormControl> 
-        {/* <NotReadyPopup msg="Pricer is coming soon" button="Price" accept="Accept Foo Apologies" /> */}
         <Button variant="contained" color="primary" onClick={onPriceRequest} className={classes.button}>Price</Button>
       </FormGroup>
 
       { values.showPrices === true ? (
         <Paper className={classes.paper}>
-          <Typography variant="title" display='block' style={{ color: "Indigo" }}>
+          <Typography variant="inherit" display='block' style={{ color: "Indigo" }}>
             Price Estimates
           </Typography>
-          { values.LR == true ? (
-            <Typography variant="title"display='block'  style={{ color: "Blue" }}>
-              ${values.LRprice} - Model: Linear Regression
+          { values.LR === true ? (
+            <Typography variant="inherit" display='block'  style={{ color: "Blue" }}>
+              {values.LRprice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} - Model: Linear Regression
             </Typography>
           ) : (<Typography/>)
           }
           { values.NN === true ? (
-            <Typography variant="title" display='block' style={{ color: "Blue" }}>
-              ${values.NNprice} - Model: Neural Network
+            <Typography variant="inherit" display='block' style={{ color: "Blue" }}>
+              {values.NNprice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} - Model: Neural Network
             </Typography>
           ) : (<Typography/>)
           }
-          { values.XGB == true ? (
-            <Typography variant="title"display='block'  style={{ color: "Blue" }}>
-              ${values.XGBprice} - Model: Gradient Boost
+          { values.XGB === true ? (
+            <Typography variant="inherit" display='block'  style={{ color: "Blue" }}>
+              {values.XGBprice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} - Model: Gradient Boost
             </Typography>
           ) : (<Typography/>)          
           }

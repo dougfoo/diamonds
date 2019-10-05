@@ -9,8 +9,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Title from './Title';
-import NotReadyPopup from "./NotReadyPopup";
-import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 function ValueLabelComponent(props) {
@@ -163,8 +161,7 @@ export default class Chooser extends Component {
   }
 
   render() { 
-    const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2,
-               CaratLow, CaratHigh } = this.state;
+    const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2 } = this.state;
     const colors = { D:D, E:E, F:F, G:G, H:H, I:I, J:J, K:K };  // faster way to do this?
     const cuts = { AstorIdeal:AstorIdeal,Ideal:Ideal,Good:Good,VeryGood:VeryGood };
     const claritys = { FL:FL, IF:IF, VVS1:VVS1, VVS2:VVS2, VS1:VS1, VS2:VS2, SI1:SI1, SI2:SI2 };
@@ -198,7 +195,6 @@ export default class Chooser extends Component {
               min={0.5} max={4.0} step={0.1} className={this.classes.slider}
               defaultValue={[1,3]} 
             />
-            {/* <Button variant="contained" color="primary" onClick={this.handleSubmit} className={this.classes.button}>Apply</Button>  */}
           </FormGroup>
         </FormControl> 
       </React.Fragment>
