@@ -205,6 +205,7 @@ export default function Pricer(props) {
     console.log('axios ... done ?');
   }
 
+  // some type of bug here... why i had to create handlechange2 for checkboxes
   const handleChange2 = name => event => {
     console.log(name, event);
     setValues({ ...values, [name]: event.target.value });

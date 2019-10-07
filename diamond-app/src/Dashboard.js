@@ -250,9 +250,9 @@ export default function DiamondDashboard() {
                 <Chart diamonds={diamonds}/>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={5} lg={4}>
-              <Paper className={classes.paper} style={{ fontSize: '0.5em' }} >
-                <Chooser diamondCB={setDiamonds} style={{ fontSize: '0.5em' }} />
+            <Grid item xs={12} md={6} lg={5}>
+              <Paper className={classes.paper} >
+                <Chooser diamondCB={setDiamonds}/>
               </Paper>
             </Grid>
             <Grid item xs={12} md={9} lg={7}>

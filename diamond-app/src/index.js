@@ -6,5 +6,6 @@ import DiamondDashboard from "./Dashboard";
 import TestPage from "./TestPage";
 require("jspolyfill-array.prototype.findIndex");
 
-ReactDOM.render(<TestPage />, document.getElementById('root'));
+ReactDOM.render(<DiamondDashboard/>, document.getElementById('root'));
+// ReactDOM.render(<TestPage />, document.getElementById('root'));
 serviceWorker.unregister();
