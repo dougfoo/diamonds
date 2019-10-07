@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -42,7 +42,18 @@ function Copyright() {
 
 const drawerWidth = 240;
 
+const theme = createMuiTheme({
+  typography: {
+    fontSize: 8,
+    htmlFontSize: 8,
+  },
+});
+
 const useStyles = makeStyles(theme => ({
+  typography: {
+    fontSize: 8,
+    htmlFontSize: 8,
+  },
   root: {
     display: 'flex',
   },
@@ -239,9 +250,9 @@ export default function DiamondDashboard() {
                 <Chart diamonds={diamonds}/>
               </Paper>
             </Grid>
-            <Grid item xs={6} md={5} lg={4}>
-              <Paper className={classes.paper}>
-                <Chooser diamondCB={setDiamonds}/>
+            <Grid item xs={12} md={5} lg={4}>
+              <Paper className={classes.paper} style={{ fontSize: '0.5em' }} >
+                <Chooser diamondCB={setDiamonds} style={{ fontSize: '0.5em' }} />
               </Paper>
             </Grid>
             <Grid item xs={12} md={9} lg={7}>
@@ -250,7 +261,7 @@ export default function DiamondDashboard() {
               </Paper>
             </Grid>
             {/* Daily Note */}
-            <Grid item xs={8} md={6} lg={4}>
+            <Grid item xs={12} md={6} lg={4}>
               <Paper className={classes.paper}>
                 <Daily />
               </Paper>

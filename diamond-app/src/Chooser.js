@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles,createMuiTheme } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Title from './Title';
 import axios from 'axios';
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Checkbox from '@material-ui/core/Checkbox';
+
+function SmallCheckbox(props) {
+  const { className, checked, onChange, value } = props;
+
+  return (
+    <Checkbox 
+        style={{ width: 3, height: 3 }}
+        icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 16 }} />}
+        checkedIcon={<CheckBoxIcon style={{ fontSize: 16 }} />}
+        className={className} onChange={onChange} value={value} 
+        checked={false}  
+    />
+  );
+}
 
 function ValueLabelComponent(props) {
   const { children, open, value } = props;
@@ -59,10 +75,14 @@ export default class Chooser extends Component {
     formControl: {
         fontSize: 8, 
     },
+    typography: {
+      fontSize: 6,
+      htmlFontSize: 6,
+    },
     slider: {
-        width: 300, 
-        marginRight: 30,
-        marginLeft: 30,
+      width: 300, 
+      marginRight: 30,
+      marginLeft: 30,
     },
   }));
   
@@ -137,7 +157,7 @@ export default class Chooser extends Component {
     console.log('submit filter, state:', this.state);
     let postStr = JSON.stringify(this.state);
     console.log('json to post: ',postStr);
-    const remoteUrl = 'http://localhost:4000/diamonds/q/';
+    const remoteUrl = 'http://localhost:4000/diamonds/qa/';   // qa mode limited size request
     const webpackUrl = '/diamonds/q/';
     const apiurl = process.env.NODE_ENV === 'production' ? webpackUrl : remoteUrl;
 
@@ -167,17 +187,17 @@ export default class Chooser extends Component {
     const claritys = { FL:FL, IF:IF, VVS1:VVS1, VVS2:VVS2, VS1:VS1, VS2:VS2, SI1:SI1, SI2:SI2 };
     
     return (
-      <React.Fragment>
+      <React.Fragment >
         <Title>Filter Diamonds</Title>
         <FormControl component="fieldset" className={this.classes.formControl} >
           <FormGroup row={true} variant='subtitle2'>
-            <Typography gutterBottom variant='subtitle2'>Color</Typography>    
+            <Typography class={this.classes.typography}>Color</Typography>    
             {Object.keys(colors).map((k,v) => (
-                <FormControlLabel key={k} control={<Checkbox checked={colors[k]} onChange={this.handleChange({k})} value={colors[k]} />} label={k} />
+                <FormControlLabel class={this.classes.typography} key={k} control={<Checkbox checked={colors[k]} onChange={this.handleChange({k})} value={colors[k]} />} label={k} />
             ))}
           </FormGroup>
           <FormGroup row={true} variant='subtitle2'>
-            <Typography gutterBottom variant='subtitle2'>Cut</Typography>    
+            <Typography  >Cut</Typography>    
             {Object.keys(cuts).map((k,v) => (
                 <FormControlLabel key={k} control={<Checkbox checked={cuts[k]} onChange={this.handleChange({k})} value={cuts[k]} />} label={k} />
             ))}
