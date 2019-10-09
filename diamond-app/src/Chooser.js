@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControl from '@material-ui/core/FormControl';
@@ -71,6 +72,10 @@ const styles = {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     fontSize: 7,
   },
+  button: {
+    height: 36,
+    width: 76,
+  },
   typography: {
     fontSize: 10,
   },
@@ -115,6 +120,7 @@ class Chooser extends Component {
       K: false,
       AstorIdeal: false,
       Ideal: true,
+      Excellent: true,
       VeryGood: true,
       Good: true,
       FL: false,
@@ -161,7 +167,6 @@ class Chooser extends Component {
   // bug #2 - timing is off on state change, not getting submitted first click
   handleChange = name => event => {
     this.setState({ ...this.state, [name.k]: event.target.checked });
-    this.handleSubmit();   
     console.log('change, name:',name);
   };
 
@@ -193,16 +198,15 @@ class Chooser extends Component {
 
   handleCaratChange = (event, value) => {
     this.setState({ ...this.state, CaratLow: value[0] , CaratHigh: value[1] });
-    this.handleSubmit();
     console.log('carat change, value:',event, value);
   }
 
   render() { 
-    const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2 } = this.state;
+    const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Excellent,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2 } = this.state;
     const colors = { D:D, E:E, F:F, G:G, H:H, I:I, J:J, K:K };  // faster way to do this?
-    const cuts = { AstorIdeal:AstorIdeal,Ideal:Ideal,Good:Good,VeryGood:VeryGood };
+    const cuts = { AstorIdeal:AstorIdeal,Ideal:Ideal,Excellent:Excellent,Good:Good,VeryGood:VeryGood };
     const claritys = { FL:FL, IF:IF, VVS1:VVS1, VVS2:VVS2, VS1:VS1, VS2:VS2, SI1:SI1, SI2:SI2 };
-    const { classes } = this.props;  // wtf --?  withClasses?
+    const { classes } = this.props;  // withClasses?
 
     return (
       <React.Fragment >
@@ -239,6 +243,7 @@ class Chooser extends Component {
               min={0.5} max={4.0} step={0.1} className={classes.slider}
               defaultValue={[1,3]} 
             />
+            <Button variant="contained" color="primary" onClick={this.handleSubmit} className={classes.button}>Search</Button>
           </FormGroup>
         </FormControl> 
       </React.Fragment>

@@ -22,7 +22,7 @@ let Diamond = new Schema({
         type: String,
         default: 'Default'
     }
-}, { collection: 'diamondsnile' });
+}, { collection: 'diamondsnilesku' });
 
 module.exports = mongoose.model('Diamond', Diamond);
 // module.exports = Diamond;

@@ -11,6 +11,9 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
+import Chart from './Chart';
+import DiamondsTable from "./DiamondsTable";
+
 /*
   Headers for webservice, 
   OLD ml studio (this product sucks)
@@ -322,6 +325,8 @@ export default function Pricer(props) {
             </Typography>
           ) : (<Typography/>)          
           }
+          {/* <Chart diamonds={[]}/>
+          <DiamondsTable diamonds={[]} /> */}
         </Paper>
       ) : ( <Paper/> ) } 
     </React.Fragment>
