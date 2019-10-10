@@ -23,20 +23,6 @@ connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
 
-diamondRoutes.route('/').get(function(req, res) {
-    Diamond.aggregate(
-                 [
-                //    { $match: { carat: { $gte: 0.5, $lte: 2.5}, }},
-                   { $group: {_id : {price: { $multiply: [ { $trunc: {$divide: ['$price',500]}},500]}, carat : '$carat',cut:'$cut',color: '$color',clarity: '$clarity'}, count:{$sum :1}}},
-                 ],  
-        function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(diamonds);
-        }
-    });
-});
 
 predictors = [
     {
@@ -68,6 +54,21 @@ async function callAzureML(apiurl, token, reqJson) {
             console.log(error);
         });
 }
+
+diamondRoutes.route('/').get(function(req, res) {
+    Diamond.aggregate(
+                 [
+                //    { $match: { carat: { $gte: 0.5, $lte: 2.5}, }},
+                   { $group: {_id : {price: { $multiply: [ { $trunc: {$divide: ['$price',500]}},500]}, carat : '$carat',cut:'$cut',color: '$color',clarity: '$clarity'}, count:{$sum :1}}},
+                 ],  
+        function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(diamonds);
+        }
+    });
+});
 
 diamondRoutes.route('/price').post(async function(req, res) {
     const qobj = req.body;
@@ -220,8 +221,18 @@ diamondRoutes.route('/q2').post(function(req, res) {
     // });
 });
 
+diamondRoutes.route('/daily').get(function(req, res) {
+    let random = Math.floor(Math.random() * 140000);  // skip n-records hope its not beyond the max
+    console.log('find random',random);
+
+    Diamond.findOne().skip(random).exec(function(err, diamonds) {
+        res.json(diamonds);
+    });
+});
+
 diamondRoutes.route('/:id').get(function(req, res) {
     let id = req.params.id;
+    console.log('find id',id);
     Diamond.findById(id, function(err, diamonds) {
         res.json(diamonds);
     });
