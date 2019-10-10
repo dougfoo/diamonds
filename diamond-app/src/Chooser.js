@@ -195,25 +195,19 @@ class Chooser extends Component {
     console.log('change, name:',name);
   };
 
-  // handleTabChange = event => {
-  //   this.setState({ ...this.state, tab: event.target.value });
-  //   console.log('tab change, name:', event);
-  // };
-
   handleTabChange = (event, newValue) => {
     this.setState({ ...this.state, tab: newValue });
   };
-
 
   componentDidMount() {
     this.handleSubmit();
   }
 
   handleSubmit = event => {
-    // this.props.diamondCB([]);  // reset state for loading.. msg
-    this.setState({ ...this.state, diamonds: [] })
-    console.log('submit filter, state:', this.state);
-    let postStr = JSON.stringify(this.state);
+    this.setState({ ...this.state, diamonds: [] });
+    let stateCopy = this.state;  // is it a copy
+    delete stateCopy.diamonds;
+    let postStr = JSON.stringify(stateCopy);
     console.log('json to post: ',postStr);
     const remoteUrl = 'http://localhost:4000/diamonds/qa/';   // qa mode limited size request
     const webpackUrl = '/diamonds/q/';

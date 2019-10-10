@@ -244,12 +244,6 @@ export default function DiamondDashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart  remember xs phone, sm tablet, md desktop, lg big desktop */}
-            {/* <Grid item xs={12} md={7} lg={7}>
-              <Paper className={classes.paper}>
-                <Chart diamonds={diamonds}/>
-              </Paper>
-            </Grid> */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper} >
                 <Chooser/>
@@ -266,12 +260,6 @@ export default function DiamondDashboard() {
                 <Daily />
               </Paper>
             </Grid>
-            {/* All Diamonds */}
-            {/* <Grid item xs={12} md={12} lg={12}>
-              <Paper className={classes.paper}>
-                <DiamondsTable diamonds={diamonds} />
-              </Paper>
-            </Grid> */}
           </Grid>
         </Container>
         <Copyright />
