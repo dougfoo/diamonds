@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -15,10 +15,15 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
 import DiamondsTable from "./DiamondsTable";
 import Chart from './Chart';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import ScatterPlot from '@material-ui/icons/ScatterPlot';
+import Notes from '@material-ui/icons/Notes';
+import Box from '@material-ui/core/Box';
 
 function SmallCheckbox(props) {
   const { className, checked, onChange, value } = props;
-
   return (
     <Checkbox 
         style={{ width: 3, height: 3 }}
@@ -68,12 +73,7 @@ ValueLabelComponent.propTypes = {
     carats decimal 0.0->25.0
 */
 
-
 const styles = {
-  root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    fontSize: 7,
-  },
   button: {
     height: 36,
     width: 76,
@@ -108,10 +108,34 @@ const styles = {
   },
 };
 
+const useStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+  },
+});
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`nav-tabpanel-${index}`}
+      aria-labelledby={`nav-tab-${index}`}
+      {...other}
+    >
+      <Box p={3}>{children}</Box>
+    </Typography>
+  );
+}
+
 class Chooser extends Component {  
   constructor(props) {
     super(props);
     this.state = {
+      tab: 0,
       diamonds: [],
       D: true,
       E: true,
@@ -166,12 +190,20 @@ class Chooser extends Component {
     },
   ];
 
-  // slight bug here.. events are firing too fast, submit happens many times
-  // bug #2 - timing is off on state change, not getting submitted first click
   handleChange = name => event => {
     this.setState({ ...this.state, [name.k]: event.target.checked });
     console.log('change, name:',name);
   };
+
+  // handleTabChange = event => {
+  //   this.setState({ ...this.state, tab: event.target.value });
+  //   console.log('tab change, name:', event);
+  // };
+
+  handleTabChange = (event, newValue) => {
+    this.setState({ ...this.state, tab: newValue });
+  };
+
 
   componentDidMount() {
     this.handleSubmit();
@@ -191,7 +223,6 @@ class Chooser extends Component {
     axios.post(apiurl, this.state)
         .then(response => {
             let diamonds = response.data;
- //           this.props.diamondCB(diamonds);
             this.setState({ ...this.state, diamonds: diamonds })
           })
         .catch(function (error){
@@ -251,8 +282,25 @@ class Chooser extends Component {
             <Button variant="contained" color="primary" onClick={this.handleSubmit} className={classes.button}>Search</Button>
           </FormGroup>
         </FormControl> 
-        <Chart diamonds={this.state.diamonds}/>
-        <DiamondsTable diamonds={this.state.diamonds} />
+        <Paper square className={classes.root}>
+          <Tabs
+            value={this.state.tab}
+            onChange={this.handleTabChange}
+            variant="fullWidth"
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="icon tabs example"
+          >
+            <Tab icon={<ScatterPlot />} aria-label="plot" />
+            <Tab icon={<Notes />} aria-label="data" />
+          </Tabs>
+          <TabPanel value={this.state.tab} index={0}>
+            <Chart diamonds={this.state.diamonds}/>
+          </TabPanel>
+          <TabPanel value={this.state.tab} index={1}>
+            <DiamondsTable diamonds={this.state.diamonds} />
+          </TabPanel>
+        </Paper>
       </React.Fragment>
 
     );
