@@ -13,6 +13,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
 import Chart from './Chart';
 import DiamondsTable from "./DiamondsTable";
+import MaterialTable from 'material-table';
 
 /*
   Headers for webservice, 
@@ -127,6 +128,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const bnUrl = 'https://www.bluenile.com/diamond-details/';
+
 const clarity = [
     {      value: 'FL',      label: 'FL',    },
     {      value: 'IF',      label: 'IF',    },
@@ -161,6 +164,7 @@ const color = [
 export default function Pricer(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
+    diamonds: [],
     color: '',
     clarity: '',
     carat: 1.1,
@@ -173,18 +177,21 @@ export default function Pricer(props) {
     NNprice: 0.0,
     XGBprice: 0.0,
     showPrices: false,
+    showDiamonds: false,
   });  
 
   const onPriceRequest = e => {
     console.log('submit filter, state:', values);
     let postStr = JSON.stringify(values);
     console.log('json to post: ',postStr);
-    const remoteUrl = 'http://localhost:4000/diamonds/price/';
-    const webpackUrl = '/diamonds/price/';
+    const pricePath = '/price/';
+    const remoteUrl = 'http://localhost:4000/diamonds';
+    const webpackUrl = '/diamonds';
     const apiurl = process.env.NODE_ENV === 'production' ? webpackUrl : remoteUrl;
 
-    console.log('axios ...', apiurl);
-    axios.post(apiurl, values, 
+    // part 1 the pricing request 
+    console.log('axios pricing ...', apiurl);
+    axios.post(apiurl + pricePath, values, 
       { headers: {
            'Content-Type': 'application/json',
            'Authorization':'Bearer xEiYevI6XBSLgc7GkYPCLtFL1yMbcYKPNNI4V9/N40Amdi/AU8AnNl1/6ZxKs3x50PAWMoiXgY36rlZjMNwkgQ=='
@@ -205,7 +212,23 @@ export default function Pricer(props) {
             console.log(error);
         })
 
-    console.log('axios ... done ?');
+    // part 2 get the diamonds that match
+    console.log('axios matches ...', apiurl);
+    const itemsPath = '/q2/';
+    axios.post(apiurl + itemsPath, values)
+        .then(response => {
+            let diamonds = response.data;
+            setValues(oldValues => ({
+              ...oldValues,
+              diamonds: diamonds,
+              showDiamonds: true,
+            }));  
+            console.log(diamonds);
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+    console.log('axios matches ... all done, ');
   }
 
   // some type of bug here... why i had to create handlechange2 for checkboxes
@@ -325,10 +348,33 @@ export default function Pricer(props) {
             </Typography>
           ) : (<Typography/>)          
           }
-          {/* <Chart diamonds={[]}/>
-          <DiamondsTable diamonds={[]} /> */}
         </Paper>
       ) : ( <Paper/> ) } 
+      { values.showDiamonds === true ? (
+          <React.Fragment>
+            {/* <PriceChart diamonds={values.diamonds}/> */}  
+            <MaterialTable
+              title="Real Diamonds of same caliber"
+              columns={[
+                { title: 'Price', field: 'price', type: 'currency' },
+                { title: 'Carat', field: 'carat' },
+                { title: 'Cut', field: 'cut' },
+                { title: 'Clarity', field: 'clarity' },
+                { title: 'Color', field: 'color' },
+                { title: 'SKUS', field: 'skus',
+                  render: rowData => <a target='_blank' href={bnUrl+rowData.skus} style={{width: 50, borderRadius: '50%'}}>Click</a>
+                },
+              ]}
+              data={values.diamonds}
+              options={{
+                search: false
+              }}
+            />
+          </React.Fragment>
+        ) : ( 
+          <Typography/>
+        ) 
+      }
     </React.Fragment>
   );
 }

@@ -13,6 +13,8 @@ import axios from 'axios';
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
+import DiamondsTable from "./DiamondsTable";
+import Chart from './Chart';
 
 function SmallCheckbox(props) {
   const { className, checked, onChange, value } = props;
@@ -110,6 +112,7 @@ class Chooser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      diamonds: [],
       D: true,
       E: true,
       F: true,
@@ -175,7 +178,8 @@ class Chooser extends Component {
   }
 
   handleSubmit = event => {
-    this.props.diamondCB([]);  // reset state for loading.. msg
+    // this.props.diamondCB([]);  // reset state for loading.. msg
+    this.setState({ ...this.state, diamonds: [] })
     console.log('submit filter, state:', this.state);
     let postStr = JSON.stringify(this.state);
     console.log('json to post: ',postStr);
@@ -187,8 +191,9 @@ class Chooser extends Component {
     axios.post(apiurl, this.state)
         .then(response => {
             let diamonds = response.data;
-            this.props.diamondCB(diamonds);
-        })
+ //           this.props.diamondCB(diamonds);
+            this.setState({ ...this.state, diamonds: diamonds })
+          })
         .catch(function (error){
             console.log(error);
         })
@@ -246,7 +251,10 @@ class Chooser extends Component {
             <Button variant="contained" color="primary" onClick={this.handleSubmit} className={classes.button}>Search</Button>
           </FormGroup>
         </FormControl> 
+        <Chart diamonds={this.state.diamonds}/>
+        <DiamondsTable diamonds={this.state.diamonds} />
       </React.Fragment>
+
     );
   }
 }

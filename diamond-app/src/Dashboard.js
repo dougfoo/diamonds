@@ -147,7 +147,7 @@ const useStyles = makeStyles(theme => ({
 export default function DiamondDashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [diamonds, setDiamonds] = React.useState([]);  // or [] 
+  // const [diamonds, setDiamonds] = React.useState([]);  // or [] 
   const [prices, setPrices] = React.useState([]);  // or [] 
   const [about, setAbout] = React.useState(false);
 
@@ -245,14 +245,14 @@ export default function DiamondDashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart  remember xs phone, sm tablet, md desktop, lg big desktop */}
-            <Grid item xs={12} md={7} lg={7}>
+            {/* <Grid item xs={12} md={7} lg={7}>
               <Paper className={classes.paper}>
                 <Chart diamonds={diamonds}/>
               </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={5}>
+            </Grid> */}
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper} >
-                <Chooser diamondCB={setDiamonds}/>
+                <Chooser/>
               </Paper>
             </Grid>
             <Grid item xs={12} md={9} lg={7}>
@@ -267,11 +267,11 @@ export default function DiamondDashboard() {
               </Paper>
             </Grid>
             {/* All Diamonds */}
-            <Grid item xs={12} md={12} lg={12}>
+            {/* <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
                 <DiamondsTable diamonds={diamonds} />
               </Paper>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Container>
         <Copyright />

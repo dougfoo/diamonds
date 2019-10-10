@@ -22,6 +22,9 @@ export default class DiamondsTable extends Component {
         title="Diamond Raw Inventory"
         columns={columns}
         data={this.props.diamonds}
+        options={{
+          search: false
+        }}
       />
     );
   }

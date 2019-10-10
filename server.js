@@ -143,6 +143,7 @@ diamondRoutes.route('/qa').post(function(req, res) {
     console.log('/qa:',colors, claritys, cuts);
 });
 
+// q takes in indidivudal boolean per item
 diamondRoutes.route('/q').post(function(req, res) {
     const qobj = req.body;
     // request json format:  {"D":true,"E":false,"F":false,"G":true,"H":false,"I":false,"J":false,"K":false,
@@ -150,7 +151,7 @@ diamondRoutes.route('/q').post(function(req, res) {
     //        "FL":true,"IF":true,"VVS1":false,"VVS2":false,"VS1":false,"VS2":false,"SI1":false,"SI2":false,
     //        "CaratLow":1,"CaratHigh":3}
     // standard response formats
-    console.log(qobj);
+    console.log('/q', qobj);
     console.log(qobj.CaratLow, qobj.CaratHigh);
     keys = Object.keys(qobj);
     trues = keys.filter(function(item) {   //true flags only
@@ -165,6 +166,7 @@ diamondRoutes.route('/q').post(function(req, res) {
     claritys = trues.filter(value => -1 !== ['FL','IF','VVS1','VVS2','VS1','VS2','SI1','SI2'].indexOf(value))
     cuts = trues.filter(value => -1 !== ['Ideal','Good','Very Good','Astor Ideal'].indexOf(value))
     console.log(colors, claritys, cuts);
+
     Diamond.aggregate( 
         [{ $match: {carat: { $gte: qobj.CaratLow, $lte: qobj.CaratHigh}, color: { $in: colors},
                    clarity: { $in: claritys }, cut: { $in: cuts }
@@ -176,9 +178,46 @@ diamondRoutes.route('/q').post(function(req, res) {
         if (err) {
             console.log(err);
         } else {
+            console.log('found count: ',diamonds.length);
             res.json(diamonds);
         }
     });
+});
+
+// q2 takes in multi-valued Color={D,E,F,G...}
+diamondRoutes.route('/q2').post(function(req, res) {
+    const qobj = req.body;
+    // request json format:  {"color:':'D','cut':"Ideal", 'clarity':"VS1", 'carat': 1.1, diamonds: [] }
+    // request json format:  {"color:':'','cut':"", 'clarity':"", 'carat': 1.1, diamonds: [] }
+    console.log('/q2',qobj);
+
+    query = Diamond.find(); // `query` is an instance of `Query`
+//    query.setOptions({ lean : true });
+//    query.collection(Diamond.collection);
+    query = query.where('carat').equals(1.1);
+    if (qobj.cut !== '') query = query.where('cut').equals(qobj.cut);
+    if (qobj.color !== '') query = query.where('color').equals(qobj.color);
+    if (qobj.clarity !== '') query = query.where('clarity').equals(qobj.clarity);
+    query.exec(
+        function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('found count: ',diamonds.length);
+                    res.json(diamonds);
+                }
+            });
+
+    // Diamond.find( 
+    //     {carat: qobj.carat, color: qobj.color },  
+    //     function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         console.log('found count: ',diamonds.length);
+    //         res.json(diamonds);
+    //     }
+    // });
 });
 
 diamondRoutes.route('/:id').get(function(req, res) {
