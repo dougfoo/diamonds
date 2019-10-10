@@ -194,7 +194,7 @@ diamondRoutes.route('/q2').post(function(req, res) {
     query = Diamond.find(); // `query` is an instance of `Query`
 //    query.setOptions({ lean : true });
 //    query.collection(Diamond.collection);
-    query = query.where('carat').equals(1.1);
+    query = query.where('carat').equals(qobj.carat);
     if (qobj.cut !== '') query = query.where('cut').equals(qobj.cut);
     if (qobj.color !== '') query = query.where('color').equals(qobj.color);
     if (qobj.clarity !== '') query = query.where('clarity').equals(qobj.clarity);
