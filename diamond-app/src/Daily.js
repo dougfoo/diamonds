@@ -50,15 +50,13 @@ export default function Daily() {
   return (
     <React.Fragment>
       <Title>Random Diamond Featured</Title>
-      <Typography component="p" variant="h4">
-      ${diamond.price}
-      </Typography>
+      <Typography component="p" variant="h4">{diamond.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</Typography>
       <Typography component="p" variant="subtitle2">Carat: {diamond.carat}</Typography>
       <Typography component="p" variant="subtitle2">Color: {diamond.color}</Typography>
       <Typography component="p" variant="subtitle2">Clarity: {diamond.clarity}</Typography>
       <Typography component="p" variant="subtitle2">Cut: {diamond.cut}</Typography>        
       <Typography color="textSecondary" className={classes.depositContext}>
-        go buy it on BlueNile <a target='_blank' href={skuref}>{diamond.skus}</a>
+        Go buy it on BlueNile <a target='_blank' href={skuref}>{diamond.skus}</a>
       </Typography>
     </React.Fragment>
   );

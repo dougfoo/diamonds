@@ -192,10 +192,8 @@ diamondRoutes.route('/q2').post(function(req, res) {
     // request json format:  {"color:':'','cut':"", 'clarity':"", 'carat': 1.1, diamonds: [] }
     console.log('/q2',qobj);
 
-    query = Diamond.find(); // `query` is an instance of `Query`
-//    query.setOptions({ lean : true });
-//    query.collection(Diamond.collection);
-    query = query.where('carat').equals(qobj.carat);
+    query = Diamond.find(); 
+    query = query.where('carat').gt(qobj.carat-0.05).lt(qobj.carat+0.05);
     if (qobj.cut !== '') query = query.where('cut').equals(qobj.cut);
     if (qobj.color !== '') query = query.where('color').equals(qobj.color);
     if (qobj.clarity !== '') query = query.where('clarity').equals(qobj.clarity);
@@ -208,17 +206,6 @@ diamondRoutes.route('/q2').post(function(req, res) {
                     res.json(diamonds);
                 }
             });
-
-    // Diamond.find( 
-    //     {carat: qobj.carat, color: qobj.color },  
-    //     function(err, diamonds) {   // should be a page or two max w/ filter gte 200k
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         console.log('found count: ',diamonds.length);
-    //         res.json(diamonds);
-    //     }
-    // });
 });
 
 diamondRoutes.route('/daily').get(function(req, res) {

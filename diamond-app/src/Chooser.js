@@ -1,70 +1,21 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Title from './Title';
 import axios from 'axios';
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Checkbox from '@material-ui/core/Checkbox';
 import DiamondsTable from "./DiamondsTable";
 import Chart from './Chart';
+import { TabPanel, SmallCheckbox, ValueLabelComponent } from './Widgets'
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ScatterPlot from '@material-ui/icons/ScatterPlot';
 import Notes from '@material-ui/icons/Notes';
-import Box from '@material-ui/core/Box';
-
-function SmallCheckbox(props) {
-  const { className, checked, onChange, value } = props;
-  return (
-    <Checkbox 
-        style={{ width: 3, height: 3 }}
-        icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 16 }} />}
-        checkedIcon={<CheckBoxIcon style={{ fontSize: 16 }} />}
-        className={className} onChange={onChange} value={value} 
-        checked={checked}  
-    />
-  );
-}
-
-function ValueLabelComponent(props) {
-  const { children, open, value } = props;
-  const popperRef = React.useRef(null);
-
-  React.useEffect(() => {
-    if (popperRef.current) {
-      popperRef.current.update();
-    }
-  });
-
-  return (
-    <Tooltip
-      PopperProps={{
-        popperRef,
-      }}
-      open={open}
-      enterTouchDelay={0}
-      placement="top"
-      title={value}
-    >
-      {children}
-    </Tooltip>
-  );
-}
-
-ValueLabelComponent.propTypes = {
-  children: PropTypes.element.isRequired,
-  open: PropTypes.bool.isRequired,
-  value: PropTypes.number.isRequired,
-};
 
 /*
     colors [ D,E,F,G,H,I,J,K ]
@@ -113,23 +64,6 @@ const useStyles = makeStyles({
     flexGrow: 1,
   },
 });
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`nav-tabpanel-${index}`}
-      aria-labelledby={`nav-tab-${index}`}
-      {...other}
-    >
-      <Box p={3}>{children}</Box>
-    </Typography>
-  );
-}
 
 class Chooser extends Component {  
   constructor(props) {

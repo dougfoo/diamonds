@@ -249,7 +249,7 @@ export default function DiamondDashboard() {
                 <Chooser/>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={9} lg={7}>
+            <Grid item xs={12} md={10} lg={8}>
               <Paper className={classes.paper}>
                 <Pricer/>
               </Paper>

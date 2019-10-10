@@ -11,9 +11,13 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
-import Chart from './Chart';
-import DiamondsTable from "./DiamondsTable";
 import MaterialTable from 'material-table';
+import { TabPanel } from './Widgets'
+import PriceChart from './PriceChart'
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import ScatterPlot from '@material-ui/icons/ScatterPlot';
+import Notes from '@material-ui/icons/Notes';
 
 /*
   Headers for webservice, 
@@ -126,11 +130,16 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  paper2: {
+    padding: theme.spacing(2),
+    background: '#e8f5e9',
+},
 }));
 
 const bnUrl = 'https://www.bluenile.com/diamond-details/';
 
 const clarity = [
+    {      value: '',      label: '*',    },
     {      value: 'FL',      label: 'FL',    },
     {      value: 'IF',      label: 'IF',    },
     {      value: 'VS1',      label: 'VS1',    },
@@ -142,6 +151,7 @@ const clarity = [
   ];
 
 const cut = [
+    {      value: '',      label: '*',    },
     {      value: 'Astor Ideal',      label: 'Ideal+',    },
     {      value: 'Ideal',      label: 'Ideal',    },
     {      value: 'Good',      label: 'Good',    },
@@ -150,6 +160,7 @@ const cut = [
 ];
 
 const color = [
+    {      value: '',      label: '*',    },
     {      value: 'D',      label: 'D',    },
     {      value: 'E',      label: 'E',    },
     {      value: 'F',      label: 'F',    },
@@ -164,6 +175,7 @@ const color = [
 export default function Pricer(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
+    tab: 0,
     diamonds: [],
     color: '',
     clarity: '',
@@ -181,8 +193,11 @@ export default function Pricer(props) {
   });  
 
   const onPriceRequest = e => {
-    console.log('submit filter, state:', values);
-    let postStr = JSON.stringify(values);
+    setValues({ ...values, diamonds: [] });   // hack to not resubmit diamond list
+    let stateCopy = values;  // is it a copy
+    delete stateCopy.diamonds;   // bit of a hack to not resumbit diamond list (not sure why setValues [] doesn't do it alone)
+    console.log('submit filter, state:', stateCopy);
+    let postStr = JSON.stringify(stateCopy);
     console.log('json to post: ',postStr);
     const pricePath = '/price/';
     const remoteUrl = 'http://localhost:4000/diamonds';
@@ -191,7 +206,7 @@ export default function Pricer(props) {
 
     // part 1 the pricing request 
     console.log('axios pricing ...', apiurl);
-    axios.post(apiurl + pricePath, values, 
+    axios.post(apiurl + pricePath, stateCopy, 
       { headers: {
            'Content-Type': 'application/json',
            'Authorization':'Bearer xEiYevI6XBSLgc7GkYPCLtFL1yMbcYKPNNI4V9/N40Amdi/AU8AnNl1/6ZxKs3x50PAWMoiXgY36rlZjMNwkgQ=='
@@ -214,6 +229,11 @@ export default function Pricer(props) {
 
     // part 2 get the diamonds that match
     console.log('axios matches ...', apiurl);
+    setValues(oldValues => ({
+      ...oldValues,
+      diamonds: [],
+      showDiamonds: true,
+    }));  
     const itemsPath = '/q2/';
     axios.post(apiurl + itemsPath, values)
         .then(response => {
@@ -235,6 +255,12 @@ export default function Pricer(props) {
   const handleChange2 = name => event => {
     console.log(name, event);
     setValues({ ...values, [name]: event.target.value });
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setValues(oldValues => ({
+      ...oldValues, tab: newValue })
+    )
   };
 
   const handleChange = name => event => {
@@ -326,7 +352,7 @@ export default function Pricer(props) {
       </FormGroup>
 
       { values.showPrices === true ? (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper2}>
           <Typography variant="inherit" display='block' style={{ color: "Indigo" }}>
             Price Estimates
           </Typography>
@@ -352,24 +378,39 @@ export default function Pricer(props) {
       ) : ( <Paper/> ) } 
       { values.showDiamonds === true ? (
           <React.Fragment>
-            {/* <PriceChart diamonds={values.diamonds}/> */}  
-            <MaterialTable
-              title="Real Diamonds of same caliber"
-              columns={[
-                { title: 'Price', field: 'price', type: 'currency' },
-                { title: 'Carat', field: 'carat' },
-                { title: 'Cut', field: 'cut' },
-                { title: 'Clarity', field: 'clarity' },
-                { title: 'Color', field: 'color' },
-                { title: 'SKUS', field: 'skus',
-                  render: rowData => <a target='_blank' href={bnUrl+rowData.skus} style={{width: 50, borderRadius: '50%'}}>Click</a>
-                },
-              ]}
-              data={values.diamonds}
-              options={{
-                search: false
-              }}
-            />
+              <Tabs
+                value={values.tab}
+                onChange={handleTabChange}
+                variant="fullWidth"
+                indicatorColor="primary"
+                textColor="primary"
+                aria-label="icon tabs example"
+              >
+                <Tab icon={<ScatterPlot />} aria-label="plot" />
+                <Tab icon={<Notes />} aria-label="data" />
+              </Tabs>
+              <TabPanel value={values.tab} index={0}>
+                <PriceChart diamonds={values.diamonds}/>  
+              </TabPanel>
+              <TabPanel value={values.tab} index={1}>
+                <MaterialTable
+                  title="Real Diamonds of same caliber"
+                  columns={[
+                    { title: 'Price', field: 'price', type: 'currency' },
+                    { title: 'Carat', field: 'carat' },
+                    { title: 'Cut', field: 'cut' },
+                    { title: 'Clarity', field: 'clarity' },
+                    { title: 'Color', field: 'color' },
+                    { title: 'SKUS', field: 'skus',
+                      render: rowData => <a target='_blank' href={bnUrl+rowData.skus} style={{width: 50, borderRadius: '50%'}}>Buy</a>
+                    },
+                  ]}
+                  data={values.diamonds}
+                  options={{
+                    search: false
+                  }}
+                />
+            </TabPanel>
           </React.Fragment>
         ) : ( 
           <Typography/>
