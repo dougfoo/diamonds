@@ -17,12 +17,10 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import HelpIcon from '@material-ui/icons/Help';
-import { mainListItems, SecondaryListItems } from './listItems';
-import Chart from './Chart';
+import { MainListItems, SecondaryListItems } from './listItems';
 import Daily from './Daily';
 import Pricer from './Pricer';
 import Chooser from './Chooser';
-import DiamondsTable from "./DiamondsTable";
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -143,13 +141,65 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const aboutInfo = (
+  <React.Fragment>
+    <h2 id="transition-modal-title">About Diamonds</h2>
+    <p id="transition-modal-description">This site utilizes various technologies and data sources as a semi classic MERN.</p>
+    <ul>
+      <li>React.js front end (Material-UI)</li>
+      <li>Victory Visulization (React Component)</li>
+      <li>Express.js backend</li>
+      <li>MongoDB object persistance</li>
+      <li>Azure Machine Learning webservice</li>
+    </ul>
+    <p>Env: {process.env.NODE_ENV}</p> 
+  </React.Fragment>
+);
+
+const aboutCs = {
+  Cs: {
+    Name: "4-C's",
+    Title: "About the 4-C's",
+    Desc: "Each of the 4 C’s (Cut, Color, Clarity and Carat) play a role in a diamond’s beauty, though it is difficult to decipher one component by itself. As a comprehensive whole, the 4 C’s interact with one another within each diamond.",
+  },
+  Color: {
+    Name: "Color",
+    Title: "About Color",
+    Desc: "The finest quality as per color grading is totally colorless, which is graded as D color diamond across the globe, meaning it is absolutely free from any color. The next grade has a very slight trace of color, which can be observed by any expert diamond valuer/grading laboratory. However, when studded in jewellery these very light colored diamonds do not show any color or it is not possible to make out color shades. These are graded as E color or F color diamonds.  Diamonds which show very little traces of color are graded as G or H color diamonds. Slightly colored diamonds are graded as I or J or K color. A diamond can be found in any color in addition to colorless. Some of the colored diamonds, such as pink, are very rare.",
+  },
+  Carat: {
+    Name: "Carat",
+    Title: "About Carat Weight",
+    Desc: "The carat weight measures the mass of a diamond. One carat is defined as 200 milligrams (about 0.007 ounces avoirdupois). The point unit—equal to one one-hundredth of a carat (0.01 carat, or 2 mg)—is commonly used for diamonds of less than one carat. All else being equal, the price per carat increases with carat weight, since larger diamonds are both rarer and more desirable for use as gemstones.",
+  },
+  Clarity: {
+    Name: "Clarity",
+    Title: "About Clarity",
+    Desc: "Clarity is a measure of internal defects of a diamond called inclusions. Inclusions may be crystals of a foreign material or another diamond crystal, or structural imperfections such as tiny cracks that can appear whitish or cloudy. The number, size, color, relative location, orientation, and visibility of inclusions can all affect the relative clarity of a diamond. The Gemological Institute of America (GIA) and other organizations have developed systems to grade clarity, which are based on those inclusions which are visible to a trained professional when a diamond is viewed under 10× magnification.",
+  },
+  Cut: {
+    Name: "Cut",
+    Title: "About Cut",
+    Desc: "Diamond cutting is the art and science of creating a gem-quality diamond out of mined rough. The cut of a diamond describes the manner in which a diamond has been shaped and polished from its beginning form as a rough stone to its final gem proportions. The cut of a diamond describes the quality of workmanship and the angles to which a diamond is cut. Often diamond cut is confused with shape",
+  },
+};
+
+function aboutCsHelper(n) {
+  console.log('about: ', aboutCs, n);
+  return (
+    <React.Fragment>
+      <h2 id="transition-modal-title" variant="h2">{aboutCs[n].Title}</h2>
+      <p id="transition-modal-description">{aboutCs[n].Desc}</p>
+    </React.Fragment>
+  )
+}
+
 
 export default function DiamondDashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  // const [diamonds, setDiamonds] = React.useState([]);  // or [] 
-  const [prices, setPrices] = React.useState([]);  // or [] 
   const [about, setAbout] = React.useState(false);
+  const [modal, setModal] = React.useState('About');
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -158,7 +208,9 @@ export default function DiamondDashboard() {
     setOpen(false);
   };
 
-  const handleAboutOpen = () => {
+  const handleAboutOpen = mKey => event => {
+    console.log(mKey);
+    setModal(mKey);
     setAbout(true);
   }
   const handleAboutClose = () => {
@@ -183,16 +235,7 @@ export default function DiamondDashboard() {
         >
           <Fade in={about}>
             <div className={classes.mpaper}>
-              <h2 id="transition-modal-title">About Diamonds</h2>
-              <p id="transition-modal-description">This site utilizes various technologies and data sources as a semi classic MERN.</p>
-              <ul>
-                <li>React.js front end (Material-UI)</li>
-                <li>Victory Visulization (React Component)</li>
-                <li>Express.js backend</li>
-                <li>MongoDB object persistance</li>
-                <li>Azure Machine Learning webservice</li>
-              </ul>
-              <p>Env: {process.env.NODE_ENV}</p>
+              { modal === 'About' ? aboutInfo : aboutCsHelper(modal) }
             </div>
           </Fade>
       </Modal>
@@ -216,7 +259,7 @@ export default function DiamondDashboard() {
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={0} color="secondary">
-              <HelpIcon onClick={handleAboutOpen} />
+              <HelpIcon onClick={handleAboutOpen('About')} />
             </Badge>
           </IconButton>
         </Toolbar>
@@ -234,7 +277,9 @@ export default function DiamondDashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <MainListItems aboutOpen={handleAboutOpen}/>
+        </List>
         <Divider />
         <List>
           <SecondaryListItems aboutOpen={handleAboutOpen}/>

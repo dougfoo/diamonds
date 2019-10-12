@@ -2,71 +2,90 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import ThreeSixtyIcon from '@material-ui/icons/ThreeSixty';
-import Filter7Icon from '@material-ui/icons/Filter7';
+import ColorLensIcon from '@material-ui/icons/ColorLens';
+import GpsNotFixedIcon from '@material-ui/icons/GpsNotFixed';
+import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import Tooltip from '@material-ui/core/Tooltip';
 
-export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Home" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Pricing  (TBD)" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Filter7Icon/>
-      </ListItemIcon>
-      <ListItemText primary="Data (TBD)" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports  (TBD)" />
-    </ListItem>
-    <ListItem button component="a" href="https://nbviewer.jupyter.org/github/dougfoo/machineLearning/blob/master/diamonds/Diamond-Analysis-1.ipynb">
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Notebooks (Beta)" />
-    </ListItem>
-  </div>
-);
+export function MainListItems (props) {
+  return (
+    <div>
+      <Tooltip placement='right' title="4 Cs">
+        <ListItem button onClick={props.aboutOpen('Cs')}>
+          <ListItemIcon>
+            <AttachMoneyIcon />
+          </ListItemIcon>
+          <ListItemText primary="The 4C's" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip placement='right' title="Carat">
+        <ListItem button onClick={props.aboutOpen('Carat')}>
+          <ListItemIcon>
+            <BubbleChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Carat" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip placement='right' title="Color">
+        <ListItem button onClick={props.aboutOpen('Color')}>
+          <ListItemIcon>
+            <ColorLensIcon/>
+          </ListItemIcon>
+          <ListItemText primary="Color" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip placement='right' title="Cut">
+        <ListItem button onClick={props.aboutOpen('Cut')}>
+          <ListItemIcon>
+            <GpsNotFixedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Cut" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip placement='right' title="Clarity">
+        <ListItem button onClick={props.aboutOpen('Clarity')}>
+          <ListItemIcon>
+            <VisibilityIcon />
+          </ListItemIcon>
+          <ListItemText primary="Clarity" />
+        </ListItem>
+      </Tooltip>
+    </div>
+  )
+}
 
 export function SecondaryListItems(props)  {  
   return (
     <div>
-    <ListItem button>
-        <ListItemIcon>
-          <PeopleIcon/>
-        </ListItemIcon>
-        <ListItemText primary="Contributors (TBD)" />
-      </ListItem>
-      <ListItem button onClick={props.aboutOpen}>
-        <ListItemIcon>
-          <HelpOutlineIcon />
-        </ListItemIcon>
-        <ListItemText primary="About Diamonds" />
-      </ListItem>
-      <ListItem button component="a" href="http://foostack.ai/">
-        <ListItemIcon>
-          <ThreeSixtyIcon />
-        </ListItemIcon>
-        <ListItemText primary="About Foo" />
-      </ListItem>
+      <Tooltip placement='right' title="Notebooks">
+        <ListItem button component="a" href="https://nbviewer.jupyter.org/github/dougfoo/machineLearning/blob/master/diamonds/Diamond-Analysis-4.ipynb">
+          <ListItemIcon>
+            <MenuBookIcon />
+          </ListItemIcon>
+          <ListItemText primary="Notebooks" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip placement='right' title="About Diamonds">
+        <ListItem button onClick={props.aboutOpen('About')}>
+          <ListItemIcon>
+            <HelpOutlineIcon />
+          </ListItemIcon>
+          <ListItemText primary="About Diamonds" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip placement='right' title="About Foo">
+        <ListItem button component="a" href="http://foostack.ai/">
+          <ListItemIcon>
+            <ThreeSixtyIcon />
+          </ListItemIcon>
+          <ListItemText primary="About Foo" />
+        </ListItem>
+      </Tooltip>
     </div>
   );
 }
