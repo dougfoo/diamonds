@@ -23,8 +23,8 @@ export default class PriceChart extends Component {
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           <VictoryChart height={200} width={150} style={{ parent: { maxWidth: "30%" } }}  padding={{ top:10, bottom: 20, left: 40, right: 10 }} >  
             <VictoryAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } }} />
-            <VictoryAxis dependentAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } 
-                  }} tickFormat={(t) => `${(t.toLocaleString('en-US', { style: 'currency', currency: 'USD' }))}`} />
+            <VictoryAxis dependentAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 6 } 
+                  }} tickFormat={(t) => `${(t.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits:0, minimumFractionDigits:0 }))}`} />
               <VictoryBoxPlot
                 boxWidth={20}
                 data={this.props.diamonds}
@@ -33,7 +33,7 @@ export default class PriceChart extends Component {
               />
           </VictoryChart>  
           <VictoryChart height={200} width={350} style={{ parent: { maxWidth: "70%" } }}  padding={{ top:10, bottom: 20, left: 40, right: 10 }} >  
-            <VictoryAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } }} />
+            <VictoryAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 7 } }} />
               <VictoryScatter
                   style={{
                     data: { 

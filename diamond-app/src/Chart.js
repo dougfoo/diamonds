@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  VictoryChart,  VictoryAxis, VictoryScatter } from 'victory';
+import {  VictoryVoronoiContainer, VictoryTooltip, VictoryChart,  VictoryAxis, VictoryScatter } from 'victory';
 import Typography from '@material-ui/core/Typography';
 import ReactLoading from "react-loading";
 
@@ -30,9 +30,9 @@ export default class Chart extends Component {
             <font color="3399FF">H</font>, 
             <font color="000000"></font>Other)</Typography>    
           <VictoryChart height={130} width={400}   padding={{ top:10, bottom: 20, left: 40, right: 10 }} >  
-            <VictoryAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } }} />
-            <VictoryAxis dependentAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 5 } 
-                  }} tickFormat={(t) => `${(t.toLocaleString('en-US', { style: 'currency', currency: 'USD' }))}`} />
+            <VictoryAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 7 } }} />
+            <VictoryAxis dependentAxis style={{ axis: { stroke: "blue" }, tickLabels: { fill: "blue", fontSize: 6 } 
+                  }} tickFormat={(t) => `${(t.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits:0, minimumFractionDigits:0 }))}`} />
             <VictoryScatter
                   style={{
                     data: { 
@@ -46,6 +46,8 @@ export default class Chart extends Component {
                     parent: { border: "1px solid #ccc" }
                   }}
                   size={1}
+                  // labels={({ datum }) => datum._id.price}
+                  // labelComponent={<VictoryTooltip/>}
                   data={this.props.diamonds} x="_id.carat" y="_id.price" scale={{x: "linear", y: "linear"}}
             />
           </VictoryChart>  
