@@ -375,7 +375,7 @@ export default function Pricer(props) {
             </Typography>
           ) : (<Typography/>)          
           }
-          <DenseTable/>
+          {/* <DenseTable data={values}/> */}
         </Paper>
       ) : ( <Paper/> ) } 
       { values.showDiamonds === true ? (
