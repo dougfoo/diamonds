@@ -12,12 +12,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
 import MaterialTable from 'material-table';
-import { TabPanel } from './Widgets'
-import PriceChart from './PriceChart'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ScatterPlot from '@material-ui/icons/ScatterPlot';
 import Notes from '@material-ui/icons/Notes';
+import { TabPanel } from './Widgets'
+import PriceChart from './PriceChart'
+import DenseTable from './DenseTable'
 
 /*
   Headers for webservice, 
@@ -374,6 +375,7 @@ export default function Pricer(props) {
             </Typography>
           ) : (<Typography/>)          
           }
+          <DenseTable/>
         </Paper>
       ) : ( <Paper/> ) } 
       { values.showDiamonds === true ? (
