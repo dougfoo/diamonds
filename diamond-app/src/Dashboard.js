@@ -124,9 +124,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  mpaper: {
+  modalpaper: {
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
+    maxWidth: '50%',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -161,26 +162,31 @@ const aboutCs = {
     Name: "4-C's",
     Title: "About the 4-C's",
     Desc: "Each of the 4 C’s (Cut, Color, Clarity and Carat) play a role in a diamond’s beauty, though it is difficult to decipher one component by itself. As a comprehensive whole, the 4 C’s interact with one another within each diamond.",
+    Desc2: "",
   },
   Color: {
     Name: "Color",
     Title: "About Color",
     Desc: "The finest quality as per color grading is totally colorless, which is graded as D color diamond across the globe, meaning it is absolutely free from any color. The next grade has a very slight trace of color, which can be observed by any expert diamond valuer/grading laboratory. However, when studded in jewellery these very light colored diamonds do not show any color or it is not possible to make out color shades. These are graded as E color or F color diamonds.  Diamonds which show very little traces of color are graded as G or H color diamonds. Slightly colored diamonds are graded as I or J or K color. A diamond can be found in any color in addition to colorless. Some of the colored diamonds, such as pink, are very rare.",
+    Desc2: "Color codes go from D (Clear-Best), to E,F,G .. down to K (least desirable)",
   },
   Carat: {
     Name: "Carat",
     Title: "About Carat Weight",
     Desc: "The carat weight measures the mass of a diamond. One carat is defined as 200 milligrams (about 0.007 ounces avoirdupois). The point unit—equal to one one-hundredth of a carat (0.01 carat, or 2 mg)—is commonly used for diamonds of less than one carat. All else being equal, the price per carat increases with carat weight, since larger diamonds are both rarer and more desirable for use as gemstones.",
+    Desc2: "",
   },
   Clarity: {
     Name: "Clarity",
     Title: "About Clarity",
     Desc: "Clarity is a measure of internal defects of a diamond called inclusions. Inclusions may be crystals of a foreign material or another diamond crystal, or structural imperfections such as tiny cracks that can appear whitish or cloudy. The number, size, color, relative location, orientation, and visibility of inclusions can all affect the relative clarity of a diamond. The Gemological Institute of America (GIA) and other organizations have developed systems to grade clarity, which are based on those inclusions which are visible to a trained professional when a diamond is viewed under 10× magnification.",
+    Desc2: "Clarity ratings range from perfect FL (Flawless), IF (Internally Flawless), to VSS1/2, VS1/2 down to SI1/2 which are the least desireable.",
   },
   Cut: {
     Name: "Cut",
     Title: "About Cut",
     Desc: "Diamond cutting is the art and science of creating a gem-quality diamond out of mined rough. The cut of a diamond describes the manner in which a diamond has been shaped and polished from its beginning form as a rough stone to its final gem proportions. The cut of a diamond describes the quality of workmanship and the angles to which a diamond is cut. Often diamond cut is confused with shape",
+    Desc2: "Cut ratings go from vendor specific (like Astor Ideal), and GIA standard Ideal, Excellent, to Very Good, and Good.",
   },
 };
 
@@ -190,6 +196,7 @@ function aboutCsHelper(n) {
     <React.Fragment>
       <h2 id="transition-modal-title" variant="h2">{aboutCs[n].Title}</h2>
       <p id="transition-modal-description">{aboutCs[n].Desc}</p>
+      <p id="transition-modal-description">{aboutCs[n].Desc2}</p>
     </React.Fragment>
   )
 }
@@ -234,7 +241,7 @@ export default function DiamondDashboard() {
           }}
         >
           <Fade in={about}>
-            <div className={classes.mpaper}>
+            <div className={classes.modalpaper}>
               { modal === 'About' ? aboutInfo : aboutCsHelper(modal) }
             </div>
           </Fade>
