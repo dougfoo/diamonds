@@ -22,19 +22,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function createData(price, name) {
-  return { price, name };
-}
+// function createData(price, name) {
+//   return { price, name };
+// }
 
-const rows = [
-  createData(12123.22, 'Linear Regression'),
-  createData(22123.22, 'Random Forest'),
-  createData(32123.22, 'Gradient Boosting'),
-  createData(32123.22, 'Isotonic Linear Regression'),
-];
+// const rows = [
+//   createData(12123.22, 'Linear Regression'),
+//   createData(22123.22, 'Random Forest'),
+//   createData(32123.22, 'Gradient Boosting'),
+//   createData(32123.22, 'Isotonic Linear Regression'),
+// ];
 
 export default function DenseTable(props) {
   const classes = useStyles();
+  const rows = props.data;
+  console.log(rows);
 
   return (
     <div className={classes.root}>
@@ -49,7 +51,7 @@ export default function DenseTable(props) {
           <TableBody>
             {rows.map(row => (
               <TableRow key={row.name}>
-                <TableCell align="right">{row.price}</TableCell>
+                <TableCell align="right">{row.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
                 <TableCell align="right">{row.name}</TableCell>
               </TableRow>
             ))}

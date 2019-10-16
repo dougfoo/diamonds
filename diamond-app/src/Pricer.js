@@ -156,7 +156,6 @@ const cut = [
     {      value: 'Astor Ideal',      label: 'Ideal+',    },
     {      value: 'Ideal',      label: 'Ideal',    },
     {      value: 'Good',      label: 'Good',    },
-    {      value: 'Excellent',      label: 'Excellent',    },
     {      value: 'Very Good',      label: 'Very Good',    },
 ];
 
@@ -183,12 +182,11 @@ export default function Pricer(props) {
     carat: 1.1,
     cut: '',
     price: 0.0,
-    XGB: true,
-    LR: true,
-    NN: false,
     LRprice: 0.0,
     NNprice: 0.0,
     XGBprice: 0.0,
+    XGB2price: 0.0,
+    ISOprice: 0.0,
     showPrices: false,
     showDiamonds: false,
   });  
@@ -221,6 +219,9 @@ export default function Pricer(props) {
                 LRprice: Number(respJson.filter(function(entry) {return entry.model === 'LR'})[0].price),
                 NNprice: Number(respJson.filter(function(entry) {return entry.model === 'NN'})[0].price),
                 XGBprice: Number(respJson.filter(function(entry) {return entry.model === 'XGB'})[0].price),
+                XGB2price: Number(respJson.filter(function(entry) {return entry.model === 'XGB2'})[0].price),
+                ISOprice: Number(respJson.filter(function(entry) {return entry.model === 'ISO'})[0].price),
+                LR3price: Number(respJson.filter(function(entry) {return entry.model === 'LR3'})[0].price),
                 showPrices: true 
             }));
         })
@@ -341,41 +342,18 @@ export default function Pricer(props) {
             </MenuItem>
             ))}
         </TextField>
-        <FormControl component="fieldset" >
-          <Typography gutterBottom>Prediction Models</Typography>    
-          <FormGroup row >
-            <FormControlLabel control={<Checkbox checked={values.LR} onChange={handleChange('LR')} value={values.LR} />} label="LinRegression" />
-            <FormControlLabel control={<Checkbox checked={values.LRNN} onChange={handleChange('NN')} value={values.NN} />} label=" DeepNet" />
-            <FormControlLabel control={<Checkbox checked={values.XGB} onChange={handleChange('XGB')} value={values.XGB} />} label=" XGBoost" />
-          </FormGroup>
-        </FormControl> 
         <Button variant="contained" color="primary" onClick={onPriceRequest} className={classes.button}>Price</Button>
       </FormGroup>
 
       { values.showPrices === true ? (
         <Paper className={classes.paper2}>
-          <Typography variant="inherit" display='block' style={{ color: "Indigo" }}>
-            Price Estimates
-          </Typography>
-          { values.LR === true ? (
-            <Typography variant="inherit" display='block'  style={{ color: "Blue" }}>
-              {values.LRprice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} - Model: Linear Regression
-            </Typography>
-          ) : (<Typography/>)
-          }
-          { values.NN === true ? (
-            <Typography variant="inherit" display='block' style={{ color: "Blue" }}>
-              {values.NNprice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} - Model: Neural Network
-            </Typography>
-          ) : (<Typography/>)
-          }
-          { values.XGB === true ? (
-            <Typography variant="inherit" display='block'  style={{ color: "Blue" }}>
-              {values.XGBprice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} - Model: Gradient Boost
-            </Typography>
-          ) : (<Typography/>)          
-          }
-          {/* <DenseTable data={values}/> */}
+          <DenseTable data={[
+              {'name':'Linear Regression (Azure ML Studio)', 'price':values.LRprice }, 
+              {'name':'Neural Net (Azure ML Studio)', 'price':values.NNprice},
+              {'name':'XG Boost (Azure ML Studio)', 'price':values.XGBprice},
+              {'name':'XG Boost (SKLearn)', 'price':values.XGB2price}, 
+              {'name':'ISO Regression (SKLearn)', 'price':values.ISOprice },
+              {'name':'Linear Regression (SKLearn)', 'price':values.LR3price }]}/>
         </Paper>
       ) : ( <Paper/> ) } 
       { values.showDiamonds === true ? (

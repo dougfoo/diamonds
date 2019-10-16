@@ -35,7 +35,7 @@ predictors2 = {
         'url':  'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/8a04a2c520414b569d010b08e93183ca/execute?api-version=2.0&details=true',
         'token': 'Bearer xEiYevI6XBSLgc7GkYPCLtFL1yMbcYKPNNI4V9/N40Amdi/AU8AnNl1/6ZxKs3x50PAWMoiXgY36rlZjMNwkgQ=='
     },
-    "NN": {
+    "NN": {           // model is not working well or broken
         'desc': 'Azure Studio Neural Network',  // [[][]] 2d array columns
         'url':  'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/1ae6d8f9651b4b9db88eab7a8fdc546a/execute?api-version=2.0&details=true',
         'token': 'Bearer YXJaBcHAMvM+gHyr9qJqlJfn8nK/EgH0Nh3OCTKFR/MWN22tWlauuZmLSwW5iuqMX7zlL5pP2SV0KniiW+SO1w=='
@@ -43,27 +43,32 @@ predictors2 = {
     "LR2a": {
         'desc': 'SK Linear Regression',  // [[][]] 2d array columns (unscaled i think -- same as LR2b ?)
         'url':  'http://db08fbbf-4767-404a-8ff0-54c94087c9ee.eastus.azurecontainer.io/score',
-        'token': 'Bearer DkYNqVXmfmxMVXpWu92zSdyc5oH/XvtWWlMGQNr72I/ul37tC/NOYr8QHX7mrN81li8OkK4MyPP2xDP6KAGcWg=='
+        'token': 'NA'
     },
     "LR2b" : {
         'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array columns (was supposed to be scaled but is not same as LR2a -- ?)
         'url':  'http://272778c2-c60f-4802-ad32-3eba1f665297.eastus.azurecontainer.io/score',
-        'token': 'Bearer DkYNqVXmfmxMVXpWu92zSdyc5oH/XvtWWlMGQNr72I/ul37tC/NOYr8QHX7mrN81li8OkK4MyPP2xDP6KAGcWg=='
+        'token': 'NA'
+    },
+    "LR3" : {          // model is not working well or broken
+        'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array 21 features
+        'url':  'http://8eb4e70d-506b-43cc-b836-cca2d8f4c332.eastus.azurecontainer.io/score',
+        'token': 'NA'
     },
     "XGB2": {
         'desc': 'SK Gradient Boost', // [[][]] 2d array columns 21 features
         'url':  'http://0132ce3b-df28-4e8f-aa3f-d88058b5ffcc.eastus.azurecontainer.io/score',
-        'token': 'Bearer DkYNqVXmfmxMVXpWu92zSdyc5oH/XvtWWlMGQNr72I/ul37tC/NOYr8QHX7mrN81li8OkK4MyPP2xDP6KAGcWg=='
+        'token': 'NA'
     },
     "RF" : {
         'desc': 'SK Random Forest', // [[][]] 2d array columns 21 features
         'url':  'http://a44cb836-10c6-48ce-9267-ebd19f648dc0.eastus.azurecontainer.io/score',
-        'token': 'Bearer DkYNqVXmfmxMVXpWu92zSdyc5oH/XvtWWlMGQNr72I/ul37tC/NOYr8QHX7mrN81li8OkK4MyPP2xDP6KAGcWg=='
+        'token': 'NA'
     },
     "ISO" : {
         'desc': 'SK Isotonic Regression', // takes single array of carats [], NaaN on < 0.3 c, this is not scaled 
         'url':  'http://6c7d024c-56ad-4559-afd9-241ea2094309.eastus.azurecontainer.io/score',  
-        'token': 'Bearer DkYNqVXmfmxMVXpWu92zSdyc5oH/XvtWWlMGQNr72I/ul37tC/NOYr8QHX7mrN81li8OkK4MyPP2xDP6KAGcWg=='
+        'token': 'NA'
     },
 };
 
@@ -95,7 +100,12 @@ diamondRoutes.route('/').get(function(req, res) {
     });
 });
 
+
 diamondRoutes.route('/price').post(async function(req, res) {
+    oneHotCols = { 'Astor Ideal':0, 'Good':0, 'Ideal':0, 'Very Good':0, 
+        'D':0, 'E':0,'F':0,'G':0,'H':0,'I':0, 'J':0, 'K':0, 
+        'FL':0,'IF':0,'SI1':0, 'SI2':0,'VS1':0,'VS2':0, 'VVS1':0, 'VVS2':0, 
+        'carat':0 }
     const qobj = req.body;
     const reqJson = {
         "Inputs": {
@@ -109,26 +119,34 @@ diamondRoutes.route('/price').post(async function(req, res) {
             }
         }
     };
-    console.log('price processed to: ',reqJson);    
+    console.log('price inputs: ',JSON.stringify(reqJson));    
 
     const reqIsoJson = { "data": [ qobj.carat] }
     console.log(' ... processed to: ',reqIsoJson);    
-    
-    const reqXGB2Json = { "data": [[ qobj.carat, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]] }
-    console.log(' .....  processed to: ',reqXGB2Json);    
+
+    if (qobj.color !== '') oneHotCols[qobj.color] = 1;
+    if (qobj.cut !== '') oneHotCols[qobj.cut] = 1;
+    if (qobj.clarity !== '') oneHotCols[qobj.clarity] = 1;
+    oneHotCols['carat'] = qobj.carat;
+    console.log('onehots set to: ', oneHotCols);
+
+    const reqOneHJson = { "data": [ Object.values(oneHotCols) ] }
+    console.log(' .....  processed to: ',reqOneHJson);    
 
     // format outputs 
     let resp0 = await callAzureML(predictors2.XGB.url, predictors2.XGB.token, reqJson);
     let resp1 = await callAzureML(predictors2.LR.url, predictors2.LR.token, reqJson);
     let resp2 = await callAzureML(predictors2.NN.url, predictors2.NN.token, reqJson);
     let resp3 = await callAzureML(predictors2.ISO.url, predictors2.ISO.token, reqIsoJson);
-    let resp4 = await callAzureML(predictors2.XGB2.url, predictors2.XGB2.token, reqXGB2Json);
+    let resp4 = await callAzureML(predictors2.XGB2.url, predictors2.XGB2.token, reqOneHJson);
+    let resp5 = await callAzureML(predictors2.LR3.url, predictors2.LR3.token, reqOneHJson);
 
     console.log('resp.data: ', JSON.stringify(resp0.data));
     console.log('resp.data1: ', JSON.stringify(resp1.data));
     console.log('resp.data2: ', JSON.stringify(resp2.data));
     console.log('resp3: ',resp3.data);
     console.log('resp4: ',resp4.data);
+    console.log('resp5: ',resp5.data);
 
     // reformat to simple table [{model: xyz, price: 123},...]
     resp = [
@@ -137,6 +155,7 @@ diamondRoutes.route('/price').post(async function(req, res) {
         { price: resp2.data.Results.output1.value.Values[0][6], model: 'NN' },
         { price: resp3.data[0], model: 'ISO' },
         { price: resp4.data[0], model: 'XGB2' },
+        { price: resp5.data[0], model: 'LR3' },
     ];
 
     res.json(resp);

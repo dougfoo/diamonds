@@ -81,7 +81,6 @@ class Chooser extends Component {
       K: false,
       AstorIdeal: false,
       Ideal: true,
-      Excellent: true,
       VeryGood: true,
       Good: true,
       FL: false,
@@ -166,9 +165,9 @@ class Chooser extends Component {
   }
 
   render() { 
-    const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Excellent,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2 } = this.state;
+    const { D,E,F,G,H,I,J,K, AstorIdeal,Ideal,Good,VeryGood, FL,IF,VVS1,VVS2,VS1,VS2,SI1,SI2 } = this.state;
     const colors = { D:D, E:E, F:F, G:G, H:H, I:I, J:J, K:K };  // faster way to do this?
-    const cuts = { AstorIdeal:AstorIdeal,Ideal:Ideal,Excellent:Excellent,Good:Good,VeryGood:VeryGood };
+    const cuts = { AstorIdeal:AstorIdeal,Ideal:Ideal,Good:Good,VeryGood:VeryGood };
     const claritys = { FL:FL, IF:IF, VVS1:VVS1, VVS2:VVS2, VS1:VS1, VS2:VS2, SI1:SI1, SI2:SI2 };
     const { classes } = this.props;  // withClasses?
 
