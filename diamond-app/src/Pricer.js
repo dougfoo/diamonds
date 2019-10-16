@@ -183,6 +183,7 @@ export default function Pricer(props) {
     cut: '',
     price: 0.0,
     LRprice: 0.0,
+    RFprice: 0.0,
     NNprice: 0.0,
     XGBprice: 0.0,
     XGB2price: 0.0,
@@ -222,6 +223,7 @@ export default function Pricer(props) {
                 XGB2price: Number(respJson.filter(function(entry) {return entry.model === 'XGB2'})[0].price),
                 ISOprice: Number(respJson.filter(function(entry) {return entry.model === 'ISO'})[0].price),
                 LR3price: Number(respJson.filter(function(entry) {return entry.model === 'LR3'})[0].price),
+                RFprice: Number(respJson.filter(function(entry) {return entry.model === 'RF'})[0].price),
                 showPrices: true 
             }));
         })
@@ -352,7 +354,8 @@ export default function Pricer(props) {
               {'name':'Neural Net (Azure ML Studio)', 'price':values.NNprice},
               {'name':'XG Boost (Azure ML Studio)', 'price':values.XGBprice},
               {'name':'XG Boost (SKLearn)', 'price':values.XGB2price}, 
-              {'name':'ISO Regression (SKLearn)', 'price':values.ISOprice },
+              {'name':'ISO Regression - carat (SKLearn)', 'price':values.ISOprice },
+              {'name':'Random Forest (SKLearn)', 'price':values.RFprice },
               {'name':'Linear Regression (SKLearn)', 'price':values.LR3price }]}/>
         </Paper>
       ) : ( <Paper/> ) } 

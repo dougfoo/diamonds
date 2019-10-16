@@ -140,6 +140,7 @@ diamondRoutes.route('/price').post(async function(req, res) {
     let resp3 = await callAzureML(predictors2.ISO.url, predictors2.ISO.token, reqIsoJson);
     let resp4 = await callAzureML(predictors2.XGB2.url, predictors2.XGB2.token, reqOneHJson);
     let resp5 = await callAzureML(predictors2.LR3.url, predictors2.LR3.token, reqOneHJson);
+    let resp6 = await callAzureML(predictors2.RF.url, predictors2.RF.token, reqOneHJson);
 
     console.log('resp.data: ', JSON.stringify(resp0.data));
     console.log('resp.data1: ', JSON.stringify(resp1.data));
@@ -147,6 +148,7 @@ diamondRoutes.route('/price').post(async function(req, res) {
     console.log('resp3: ',resp3.data);
     console.log('resp4: ',resp4.data);
     console.log('resp5: ',resp5.data);
+    console.log('resp6: ',resp6.data);
 
     // reformat to simple table [{model: xyz, price: 123},...]
     resp = [
@@ -156,6 +158,7 @@ diamondRoutes.route('/price').post(async function(req, res) {
         { price: resp3.data[0], model: 'ISO' },
         { price: resp4.data[0], model: 'XGB2' },
         { price: resp5.data[0], model: 'LR3' },
+        { price: resp6.data[0], model: 'RF' },
     ];
 
     res.json(resp);
