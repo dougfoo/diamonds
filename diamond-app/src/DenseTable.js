@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +53,7 @@ export default function DenseTable(props) {
             {rows.map(row => (
               <TableRow key={row.name}>
                 <TableCell align="right">{row.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
-                <TableCell align="right">{row.name}</TableCell>
+                <TableCell align="right"><Tooltip placement='top' title="Click for Model Info"><a href={row.url} target="_blank">{row.name}</a></Tooltip></TableCell>
               </TableRow>
             ))}
           </TableBody>

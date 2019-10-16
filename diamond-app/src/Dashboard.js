@@ -148,10 +148,11 @@ const aboutInfo = (
     <p id="transition-modal-description">This site utilizes various technologies and data sources as a semi classic MERN.</p>
     <ul>
       <li>React.js front end (Material-UI)</li>
-      <li>Victory Visulization (React Component)</li>
+      <li>Victory Visualization (React Component)</li>
       <li>Express.js backend</li>
-      <li>MongoDB object persistance</li>
-      <li>Azure Machine Learning webservice</li>
+      <li>MongoDB object persistance (using Mongoose)</li>
+      <li>Scikit Learn Machine Learning models</li>
+      <li>Azure Machine Learning webservices & hosting</li>
     </ul>
     <p>Env: {process.env.NODE_ENV}</p> 
   </React.Fragment>

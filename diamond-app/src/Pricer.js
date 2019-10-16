@@ -350,13 +350,13 @@ export default function Pricer(props) {
       { values.showPrices === true ? (
         <Paper className={classes.paper2}>
           <DenseTable data={[
-              {'name':'Linear Regression (Azure ML Studio)', 'price':values.LRprice }, 
-              {'name':'Neural Net (Azure ML Studio)', 'price':values.NNprice},
-              {'name':'XG Boost (Azure ML Studio)', 'price':values.XGBprice},
-              {'name':'XG Boost (SKLearn)', 'price':values.XGB2price}, 
-              {'name':'ISO Regression - carat (SKLearn)', 'price':values.ISOprice },
-              {'name':'Random Forest (SKLearn)', 'price':values.RFprice },
-              {'name':'Linear Regression (SKLearn)', 'price':values.LR3price }]}/>
+              {'name':'Linear Regression (Azure ML Studio)', 'price':values.LRprice, 'url': 'https://docs.microsoft.com/en-us/azure/machine-learning/studio-module-reference/linear-regression' }, 
+              {'name':'Neural Net (Azure ML Studio)', 'price':values.NNprice, 'url': 'https://docs.microsoft.com/en-us/azure/machine-learning/studio-module-reference/neural-network-regression'},
+              {'name':'XG Boost (Azure ML Studio)', 'price':values.XGBprice, 'url': 'https://docs.microsoft.com/en-us/azure/machine-learning/studio-module-reference/boosted-decision-tree-regression'},
+              {'name':'XG Boost (SKLearn)', 'price':values.XGB2price, 'url': 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html'}, 
+              {'name':'ISO Regression - carat (SKLearn)', 'price':values.ISOprice, 'url': 'https://scikit-learn.org/stable/modules/isotonic.html' },
+              {'name':'Random Forest (SKLearn)', 'price':values.RFprice, 'url': 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html' },
+              {'name':'Linear Regression (SKLearn)', 'price':values.LR3price, 'url': 'https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html' }]}/>
         </Paper>
       ) : ( <Paper/> ) } 
       { values.showDiamonds === true ? (
