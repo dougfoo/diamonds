@@ -52,17 +52,17 @@ predictors2 = {
     },
     "LR3" : {          // model is not working well or broken
         'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array 21 features
-        'url':  'http://8eb4e70d-506b-43cc-b836-cca2d8f4c332.eastus.azurecontainer.io/score',
+        'url':  'http://0009928c-02c4-4955-b80a-0a7ee9e82775.eastus.azurecontainer.io/score',
         'token': 'NA'
     },
     "XGB2": {
         'desc': 'SK Gradient Boost', // [[][]] 2d array columns 21 features
-        'url':  'http://0132ce3b-df28-4e8f-aa3f-d88058b5ffcc.eastus.azurecontainer.io/score',
+        'url':  'http://9028e358-ba2b-4380-9f59-4e6f997b8b40.eastus.azurecontainer.io/score',
         'token': 'NA'
     },
     "RF" : {
         'desc': 'SK Random Forest', // [[][]] 2d array columns 21 features
-        'url':  'http://a44cb836-10c6-48ce-9267-ebd19f648dc0.eastus.azurecontainer.io/score',
+        'url':  'http://ac8bc413-2d23-466e-bbdc-0ed080855313.eastus.azurecontainer.io/score',
         'token': 'NA'
     },
     "ISO" : {
@@ -102,9 +102,9 @@ diamondRoutes.route('/').get(function(req, res) {
 
 
 diamondRoutes.route('/price').post(async function(req, res) {
-    oneHotCols = { 'Astor Ideal':0, 'Good':0, 'Ideal':0, 'Very Good':0, 
-        'D':0, 'E':0,'F':0,'G':0,'H':0,'I':0, 'J':0, 'K':0, 
-        'FL':0,'IF':0,'SI1':0, 'SI2':0,'VS1':0,'VS2':0, 'VVS1':0, 'VVS2':0, 
+    oneHotCols = { 'Astor Ideal':0, 'Good':0, 'Ideal':0,  
+        'D':0, 'E':0,'F':0,'G':0,'H':0,'I':0, 'J':0,  
+        'FL':0,'IF':0,'SI1':0, 'SI2':0,'VS1':0,'VS2':0, 'VVS1':0, 
         'carat':0 }
     const qobj = req.body;
     const reqJson = {

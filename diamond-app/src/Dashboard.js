@@ -297,20 +297,19 @@ export default function DiamondDashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={classes.paper} >
-                <Chooser/>
-              </Paper>
-            </Grid>
             <Grid item xs={12} md={10} lg={8}>
               <Paper className={classes.paper}>
                 <Pricer/>
               </Paper>
             </Grid>
-            {/* Daily Note */}
             <Grid item xs={12} md={6} lg={4}>
               <Paper className={classes.paper}>
                 <Daily />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={classes.paper} >
+                <Chooser/>
               </Paper>
             </Grid>
           </Grid>
