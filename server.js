@@ -40,16 +40,6 @@ predictors2 = {
         'url':  'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/1ae6d8f9651b4b9db88eab7a8fdc546a/execute?api-version=2.0&details=true',
         'token': 'Bearer YXJaBcHAMvM+gHyr9qJqlJfn8nK/EgH0Nh3OCTKFR/MWN22tWlauuZmLSwW5iuqMX7zlL5pP2SV0KniiW+SO1w=='
     },          
-    "LR2a": {
-        'desc': 'SK Linear Regression',  // [[][]] 2d array columns (unscaled i think -- same as LR2b ?)
-        'url':  'http://db08fbbf-4767-404a-8ff0-54c94087c9ee.eastus.azurecontainer.io/score',
-        'token': 'NA'
-    },
-    "LR2b" : {
-        'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array columns (was supposed to be scaled but is not same as LR2a -- ?)
-        'url':  'http://272778c2-c60f-4802-ad32-3eba1f665297.eastus.azurecontainer.io/score',
-        'token': 'NA'
-    },
     "LR3" : {          // model is not working well or broken
         'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array 21 features
         'url':  'http://0009928c-02c4-4955-b80a-0a7ee9e82775.eastus.azurecontainer.io/score',
