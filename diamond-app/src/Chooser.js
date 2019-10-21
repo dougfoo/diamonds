@@ -218,8 +218,8 @@ class Chooser extends Component {
             textColor="primary"
             aria-label="icon tabs example"
           >
-            <Tab icon={<ScatterPlot />} aria-label="plot" />
-            <Tab icon={<Notes />} aria-label="data" />
+            <Tab aria-label="plot" label="Plot" />
+            <Tab aria-label="data" label="Data" />
           </Tabs>
           <TabPanel value={this.state.tab} index={0}>
             <Chart diamonds={this.state.diamonds}/>
