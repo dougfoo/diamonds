@@ -20,9 +20,7 @@ export default function Daily() {
   const apiurl = process.env.NODE_ENV === 'production' ? webpackUrl : remoteUrl;
 
   const [diamond, setDiamond] = useState({
-    price: 0.0,
-    carat: 0.0, 
-    color: '', cut: '', clarity: '', skus: ''
+    price: 0.0, carat: 0.0, color: '', cut: '', clarity: '', skus: ''
   });
 
   useEffect(() => {
@@ -45,7 +43,6 @@ export default function Daily() {
   },[]);
 
   let skuref = 'https://www.bluenile.com/diamond-details/'+ diamond.skus;
-  console.log('axios ... done ?');
 
   return (
     <React.Fragment>

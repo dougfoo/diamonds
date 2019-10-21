@@ -62,7 +62,7 @@ predictors2 = {
     },
     "RF" : {
         'desc': 'SK Random Forest', // [[][]] 2d array columns 21 features
-        'url':  'http://ac8bc413-2d23-466e-bbdc-0ed080855313.eastus.azurecontainer.io/score',
+        'url':  'http://d979fdad-e8f3-43b2-87aa-97f5eb5c4163.eastus.azurecontainer.io/score',
         'token': 'NA'
     },
     "ISO" : {
