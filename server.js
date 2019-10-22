@@ -40,18 +40,18 @@ predictors2 = {
         'url':  'https://ussouthcentral.services.azureml.net/workspaces/0885812b69864a0c817eedb7d0910841/services/1ae6d8f9651b4b9db88eab7a8fdc546a/execute?api-version=2.0&details=true',
         'token': 'Bearer YXJaBcHAMvM+gHyr9qJqlJfn8nK/EgH0Nh3OCTKFR/MWN22tWlauuZmLSwW5iuqMX7zlL5pP2SV0KniiW+SO1w=='
     },          
-    "LR3" : {          // model is not working well or broken
-        'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array 21 features
+    "LR3" : {          // model working after fixing colinearity
+        'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array 18 features
         'url':  'http://0009928c-02c4-4955-b80a-0a7ee9e82775.eastus.azurecontainer.io/score',
         'token': 'NA'
     },
     "XGB2": {
-        'desc': 'SK Gradient Boost', // [[][]] 2d array columns 21 features
+        'desc': 'SK Gradient Boost', // [[][]] 2d array columns 18 features
         'url':  'http://9028e358-ba2b-4380-9f59-4e6f997b8b40.eastus.azurecontainer.io/score',
         'token': 'NA'
     },
     "RF" : {
-        'desc': 'SK Random Forest', // [[][]] 2d array columns 21 features
+        'desc': 'SK Random Forest', // [[][]] 2d array columns 18 features
         'url':  'http://d979fdad-e8f3-43b2-87aa-97f5eb5c4163.eastus.azurecontainer.io/score',
         'token': 'NA'
     },
