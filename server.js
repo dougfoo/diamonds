@@ -1,3 +1,10 @@
+console.log('process.env.APPINSIGHTS_INSTRUMENTATIONKEY', process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
+if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
+    const appInsights = require("applicationinsights");
+    appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
+    appInsights.start();
+}
+
 const express = require('express');
 const axios = require('axios');
 const app = express();
@@ -11,6 +18,7 @@ var path = require('path');
 const { DB_USER, DB_PW } = process.env;  // to be used after
 
 let Diamond = require('./diamond.model.js');
+
 
 app.use(cors());
 app.use(bodyParser.json());
