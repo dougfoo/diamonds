@@ -1,10 +1,10 @@
-// console.log('process.env.APPINSIGHTS_INSTRUMENTATIONKEY', process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
-// if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
-//     const appInsights = require("applicationinsights");
-//     appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
-//     appInsights.start();
-// }
-//
+console.log('process.env.APPINSIGHTS_INSTRUMENTATIONKEY', process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
+if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
+    const appInsights = require("applicationinsights");
+    appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
+    appInsights.start();
+}
+
 const express = require('express');
 const axios = require('axios');
 const app = express();
