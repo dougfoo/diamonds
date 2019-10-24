@@ -24,6 +24,23 @@ import Chooser from './Chooser';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { ReactPlugin, withAITracking } from '@microsoft/applicationinsights-react-js';
+import { createBrowserHistory } from "history";
+
+const browserHistory = createBrowserHistory({ basename: '' });
+var reactPlugin = new ReactPlugin();
+var appInsights = new ApplicationInsights({
+    config: {
+        instrumentationKey: '458001d5-9bee-48de-94ba-1b43967aff71',
+        extensions: [reactPlugin],
+        extensionConfig: {
+          [reactPlugin.identifier]: { history: browserHistory }
+        }
+    }
+});
+appInsights.loadAppInsights();
+
 
 function Copyright() {
   return (
@@ -203,7 +220,7 @@ function aboutCsHelper(n) {
 }
 
 
-export default function DiamondDashboard() {
+function DiamondDashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [about, setAbout] = React.useState(false);
@@ -320,3 +337,6 @@ export default function DiamondDashboard() {
     </div>
   );
 }
+
+export default withAITracking( reactPlugin, DiamondDashboard);
+
