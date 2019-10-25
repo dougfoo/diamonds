@@ -50,22 +50,26 @@ predictors2 = {
     },          
     "LR3" : {          // model working after fixing colinearity
         'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array 18 features
-        'url':  'http://0009928c-02c4-4955-b80a-0a7ee9e82775.eastus.azurecontainer.io/score',
+//        'url':  'http://0009928c-02c4-4955-b80a-0a7ee9e82775.eastus.azurecontainer.io/score',
+        'url': 'http://flaskmli.azurewebsites.net//models/LR3',
         'token': 'NA'
     },
     "XGB2": {
         'desc': 'SK Gradient Boost', // [[][]] 2d array columns 18 features
-        'url':  'http://9028e358-ba2b-4380-9f59-4e6f997b8b40.eastus.azurecontainer.io/score',
+//        'url':  'http://9028e358-ba2b-4380-9f59-4e6f997b8b40.eastus.azurecontainer.io/score',
+        'url': 'http://flaskmli.azurewebsites.net/models/XGB2',
         'token': 'NA'
     },
     "RF" : {
         'desc': 'SK Random Forest', // [[][]] 2d array columns 18 features
-        'url':  'http://d979fdad-e8f3-43b2-87aa-97f5eb5c4163.eastus.azurecontainer.io/score',
+//        'url':  'http://d979fdad-e8f3-43b2-87aa-97f5eb5c4163.eastus.azurecontainer.io/score',
+        'url': 'http://flaskmli.azurewebsites.net/models/RF',
         'token': 'NA'
     },
     "ISO" : {
         'desc': 'SK Isotonic Regression', // takes single array of carats [], NaaN on < 0.3 c, this is not scaled 
-        'url':  'http://6c7d024c-56ad-4559-afd9-241ea2094309.eastus.azurecontainer.io/score',  
+//        'url':  'http://6c7d024c-56ad-4559-afd9-241ea2094309.eastus.azurecontainer.io/score',  
+        'url': 'hthttp://flaskmli.azurewebsites.net/models/ISO',
         'token': 'NA'
     },
 };
