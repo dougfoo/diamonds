@@ -51,7 +51,7 @@ predictors2 = {
     "LR3" : {          // model working after fixing colinearity
         'desc': 'SK Linear Reg w/ scaling',  // [[][]] 2d array 18 features
 //        'url':  'http://0009928c-02c4-4955-b80a-0a7ee9e82775.eastus.azurecontainer.io/score',
-        'url': 'http://flaskmli.azurewebsites.net//models/LR3',
+        'url': 'http://flaskmli.azurewebsites.net/models/LR3',
         'token': 'NA'
     },
     "XGB2": {
