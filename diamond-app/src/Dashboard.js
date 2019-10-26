@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -26,22 +26,24 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { ReactPlugin } from '@microsoft/applicationinsights-react-js';
-// import { createBrowserHistory } from "history";
-import { getAppInsights } from './TelemetryService';
-import TelemetryProvider from './TelemetryProvider';
+import { createBrowserHistory } from "history";
+// import { getAppInsights } from './TelemetryService';
+// import TelemetryProvider from './TelemetryProvider';
 
-// const browserHistory = createBrowserHistory({ basename: '' });
-// var reactPlugin = new ReactPlugin();
-// var appInsights = new ApplicationInsights({
-//     config: {
-//         instrumentationKey: '458001d5-9bee-48de-94ba-1b43967aff71',
-//         extensions: [reactPlugin],
-//         extensionConfig: {
-//           [reactPlugin.identifier]: { history: browserHistory }
-//         }
-//     }
-// });
-// appInsights.loadAppInsights();
+const browserHistory = createBrowserHistory({ basename: '' });
+var reactPlugin = new ReactPlugin();
+var appInsights = new ApplicationInsights({
+    config: {
+        instrumentationKey: '458001d5-9bee-48de-94ba-1b43967aff71',
+        extensions: [reactPlugin],
+        enableAutoRouteTracking: true,
+        disableFetchTracking: false,
+        extensionConfig: {
+          [reactPlugin.identifier]: { history: browserHistory }
+        }
+    }
+});
+appInsights.loadAppInsights();
 
 
 function Copyright() {
@@ -58,13 +60,6 @@ function Copyright() {
 }
 
 const drawerWidth = 240;
-
-const theme = createMuiTheme({
-  typography: {
-    fontSize: 8,
-    htmlFontSize: 8,
-  },
-});
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -247,10 +242,8 @@ function DiamondDashboard() {
     setAbout(false);
   }
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   return (
-    <TelemetryProvider after={() => { appInsights = getAppInsights() }}>
+    <div>
       <div>
         <Modal
             aria-labelledby="transition-modal-title"
@@ -340,7 +333,7 @@ function DiamondDashboard() {
           <Copyright />
         </main>
       </div>
-    </TelemetryProvider>
+    </div>
   );
 }
 

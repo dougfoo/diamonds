@@ -9,7 +9,6 @@ let appInsights = null;
  * @return {{reactPlugin: ReactPlugin, appInsights: Object, initialize: Function}} - Object
  */
 const createTelemetryService = () => {
-
     /**
      * Initialize the Application Insights class
      * @param {string} instrumentationKey - Application Insights Instrumentation Key
@@ -17,12 +16,14 @@ const createTelemetryService = () => {
      * @return {void}
      */
     const initialize = (instrumentationKey, browserHistory) => {
+        console.log('createTelemetry::initialize');
         if (!browserHistory) {
             throw new Error('Could not initialize Telemetry Service');
         }
         if (!instrumentationKey) {
-            throw new Error('Instrumentation key not provided in ./src/telemetry-provider.jsx')
+            throw new Error('Instrumentation key not provided in ./src/TelemetryProvider.js')
         }
+
 
         reactPlugin = new ReactPlugin();
 
@@ -42,6 +43,7 @@ const createTelemetryService = () => {
         });
 
         appInsights.loadAppInsights();
+        console.log('createTelemetry::done');
     };
 
     return {reactPlugin, appInsights, initialize};

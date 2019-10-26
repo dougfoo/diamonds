@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  VictoryVoronoiContainer, VictoryTooltip, VictoryChart,  VictoryAxis, VictoryScatter } from 'victory';
+import { VictoryChart,  VictoryAxis, VictoryScatter } from 'victory';
 import Typography from '@material-ui/core/Typography';
 import ReactLoading from "react-loading";
 

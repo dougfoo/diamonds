@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -14,8 +14,6 @@ import { TabPanel, SmallCheckbox, ValueLabelComponent } from './Widgets'
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import ScatterPlot from '@material-ui/icons/ScatterPlot';
-import Notes from '@material-ui/icons/Notes';
 
 /*
     colors [ D,E,F,G,H,I,J,K ]
@@ -58,12 +56,6 @@ const styles = {
     padding: '10px',
   },
 };
-
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
-});
 
 class Chooser extends Component {  
   constructor(props) {

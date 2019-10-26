@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {  withStyles } from '@material-ui/core/styles';
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -111,7 +111,7 @@ function SmallCheckbox(props) {
         icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 16 }} />}
         checkedIcon={<CheckBoxIcon style={{ fontSize: 16 }} />}
         className={className} onChange={onChange} value={value} 
-        checked={false}  
+        checked={checked}  
     />
   );
 }
