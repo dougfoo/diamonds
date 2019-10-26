@@ -74,7 +74,7 @@ predictors2 = {
     },
 };
 
-async function callAzureML(apiurl, token, reqJson) {
+async function callSvc(apiurl, token, reqJson) {
     console.log('axios ...', apiurl, reqJson, token);
     return axios.post(apiurl, reqJson, 
         { headers: {
@@ -87,6 +87,7 @@ async function callAzureML(apiurl, token, reqJson) {
         });
 }
 
+// legacy default, main chooser queries go to /q, pricing goes to /price and /q2
 diamondRoutes.route('/').get(function(req, res) {
     Diamond.aggregate(
                  [
@@ -109,7 +110,8 @@ diamondRoutes.route('/price').post(async function(req, res) {
         'FL':0,'IF':0,'SI1':0, 'SI2':0,'VS1':0,'VS2':0, 'VVS1':0, 
         'carat':0 }
     const qobj = req.body;
-    const reqJson = {
+    console.log('request inputs: ',JSON.stringify(qobj));    
+    const reqJson = {  // input format for azure studio
         "Inputs": {
             "input1": {
             "ColumnNames": [ "id", "carat", "color", "cut", "clarity","price" ],
@@ -123,8 +125,8 @@ diamondRoutes.route('/price').post(async function(req, res) {
     };
     console.log('price inputs: ',JSON.stringify(reqJson));    
 
-    const reqIsoJson = { "data": [ qobj.carat] }
-    console.log(' ... processed to: ',reqIsoJson);    
+    const reqIsoJson = { "data": [ qobj.carat] }   // input for sckit iso reg model
+    console.log(' ... processed to: ',reqIsoJson);     
 
     if (qobj.color !== '') oneHotCols[qobj.color] = 1;
     if (qobj.cut !== '') oneHotCols[qobj.cut] = 1;
@@ -132,17 +134,17 @@ diamondRoutes.route('/price').post(async function(req, res) {
     oneHotCols['carat'] = qobj.carat;
     console.log('onehots set to: ', oneHotCols);
 
-    const reqOneHJson = { "data": [ Object.values(oneHotCols) ] }
+    const reqOneHJson = { "data": [ Object.values(oneHotCols) ] }  // input for most sckit models
     console.log(' .....  processed to: ',reqOneHJson);    
 
     // format outputs 
-    let resp0 = await callAzureML(predictors2.XGB.url, predictors2.XGB.token, reqJson);
-    let resp1 = await callAzureML(predictors2.LR.url, predictors2.LR.token, reqJson);
-    let resp2 = await callAzureML(predictors2.NN.url, predictors2.NN.token, reqJson);
-    let resp3 = await callAzureML(predictors2.ISO.url, predictors2.ISO.token, reqIsoJson);
-    let resp4 = await callAzureML(predictors2.XGB2.url, predictors2.XGB2.token, reqOneHJson);
-    let resp5 = await callAzureML(predictors2.LR3.url, predictors2.LR3.token, reqOneHJson);
-    let resp6 = await callAzureML(predictors2.RF.url, predictors2.RF.token, reqOneHJson);
+    let resp0 = await callSvc(predictors2.XGB.url, predictors2.XGB.token, reqJson);
+    let resp1 = await callSvc(predictors2.LR.url, predictors2.LR.token, reqJson);
+    let resp2 = await callSvc(predictors2.NN.url, predictors2.NN.token, reqJson);
+    let resp3 = await callSvc(predictors2.ISO.url, predictors2.ISO.token, reqIsoJson);
+    let resp4 = await callSvc(predictors2.XGB2.url, predictors2.XGB2.token, reqOneHJson);
+    let resp5 = await callSvc(predictors2.LR3.url, predictors2.LR3.token, reqOneHJson);
+    let resp6 = await callSvc(predictors2.RF.url, predictors2.RF.token, reqOneHJson);
 
     console.log('resp.data: ', JSON.stringify(resp0.data));
     console.log('resp.data1: ', JSON.stringify(resp1.data));
