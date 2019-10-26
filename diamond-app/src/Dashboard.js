@@ -25,21 +25,23 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
-import { ReactPlugin, withAITracking } from '@microsoft/applicationinsights-react-js';
-import { createBrowserHistory } from "history";
+import { ReactPlugin } from '@microsoft/applicationinsights-react-js';
+// import { createBrowserHistory } from "history";
+import { getAppInsights } from './TelemetryService';
+import TelemetryProvider from './TelemetryProvider';
 
-const browserHistory = createBrowserHistory({ basename: '' });
-var reactPlugin = new ReactPlugin();
-var appInsights = new ApplicationInsights({
-    config: {
-        instrumentationKey: '458001d5-9bee-48de-94ba-1b43967aff71',
-        extensions: [reactPlugin],
-        extensionConfig: {
-          [reactPlugin.identifier]: { history: browserHistory }
-        }
-    }
-});
-appInsights.loadAppInsights();
+// const browserHistory = createBrowserHistory({ basename: '' });
+// var reactPlugin = new ReactPlugin();
+// var appInsights = new ApplicationInsights({
+//     config: {
+//         instrumentationKey: '458001d5-9bee-48de-94ba-1b43967aff71',
+//         extensions: [reactPlugin],
+//         extensionConfig: {
+//           [reactPlugin.identifier]: { history: browserHistory }
+//         }
+//     }
+// });
+// appInsights.loadAppInsights();
 
 
 function Copyright() {
@@ -221,6 +223,8 @@ function aboutCsHelper(n) {
 
 
 function DiamondDashboard() {
+  let appInsights = null;
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [about, setAbout] = React.useState(false);
@@ -245,98 +249,99 @@ function DiamondDashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <div>
-      <div><Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          className={classes.modal}
-          open={about}
-          onClose={handleAboutClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 300,
-          }}
-        >
-          <Fade in={about}>
-            <div className={classes.modalpaper}>
-              { modal === 'About' ? aboutInfo : aboutCsHelper(modal) }
-            </div>
-          </Fade>
-      </Modal>
-      </div>
-      <div className={classes.root}>
-
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+    <TelemetryProvider after={() => { appInsights = getAppInsights() }}>
+      <div>
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={about}
+            onClose={handleAboutClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 300,
+            }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Diamond Analytics
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={0} color="secondary">
-              <HelpIcon onClick={handleAboutOpen('About')} />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
+            <Fade in={about}>
+              <div className={classes.modalpaper}>
+                { modal === 'About' ? aboutInfo : aboutCsHelper(modal) }
+              </div>
+            </Fade>
+        </Modal>
         </div>
-        <Divider />
-        <List>
-          <MainListItems aboutOpen={handleAboutOpen}/>
-        </List>
-        <Divider />
-        <List>
-          <SecondaryListItems aboutOpen={handleAboutOpen}/>
-        </List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={10} lg={8}>
-              <Paper className={classes.paper}>
-                <Pricer/>
-              </Paper>
+        <div className={classes.root}>
+
+        <CssBaseline />
+        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+          <Toolbar className={classes.toolbar}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+              Diamond Analytics
+            </Typography>
+            <IconButton color="inherit">
+              <Badge badgeContent={0} color="secondary">
+                <HelpIcon onClick={handleAboutOpen('About')} />
+              </Badge>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          }}
+          open={open}
+        >
+          <div className={classes.toolbarIcon}>
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            <MainListItems aboutOpen={handleAboutOpen}/>
+          </List>
+          <Divider />
+          <List>
+            <SecondaryListItems aboutOpen={handleAboutOpen}/>
+          </List>
+        </Drawer>
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          <Container maxWidth="lg" className={classes.container}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={10} lg={8}>
+                <Paper className={classes.paper}>
+                  <Pricer/>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={6} lg={4}>
+                <Paper className={classes.paper}>
+                  <Daily />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={12} lg={12}>
+                <Paper className={classes.paper} >
+                  <Chooser/>
+                </Paper>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <Paper className={classes.paper}>
-                <Daily />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={classes.paper} >
-                <Chooser/>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-        <Copyright />
-      </main>
-    </div>
-    </div>
+          </Container>
+          <Copyright />
+        </main>
+      </div>
+    </TelemetryProvider>
   );
 }
 
-export default withAITracking( reactPlugin, DiamondDashboard);
+export default DiamondDashboard;
 
