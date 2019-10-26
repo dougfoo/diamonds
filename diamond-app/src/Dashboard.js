@@ -218,8 +218,6 @@ function aboutCsHelper(n) {
 
 
 function DiamondDashboard() {
-  let appInsights = null;
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [about, setAbout] = React.useState(false);
