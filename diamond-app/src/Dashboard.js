@@ -238,6 +238,7 @@ function DiamondDashboard() {
   };
 
   const handleAboutOpen = mKey => event => {
+    appInsights.trackEvent({ name: 'aboutClicked '+mKey });
     console.log(mKey);
     setModal(mKey);
     setAbout(true);

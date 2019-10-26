@@ -30,6 +30,7 @@ const createTelemetryService = () => {
             config: {
                 instrumentationKey: instrumentationKey,
                 maxBatchInterval: 0,
+                enableAutoRouteTracking: true,
                 disableFetchTracking: false,
                 extensions: [reactPlugin],
                 extensionConfig: {
