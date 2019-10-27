@@ -11,6 +11,9 @@ import GpsNotFixedIcon from '@material-ui/icons/GpsNotFixed';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Tooltip from '@material-ui/core/Tooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMedium } from '@fortawesome/free-brands-svg-icons';
+import { faVial, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 export function MainListItems (props) {
   return (
@@ -62,10 +65,18 @@ export function MainListItems (props) {
 export function SecondaryListItems(props)  {  
   return (
     <div>
+      <Tooltip placement='right' title="Blog">
+        <ListItem button component="a" href="https://medium.com/@doug.foo/full-stack-mern-machine-learning-on-azure-pt1-sourcing-b1231836cb52">
+           <ListItemIcon>
+             <FontAwesomeIcon icon={faMedium} size="2x" />
+           </ListItemIcon>
+           <ListItemText primary="Notebooks" />
+        </ListItem>
+      </Tooltip>
       <Tooltip placement='right' title="Notebooks">
         <ListItem button component="a" href="https://nbviewer.jupyter.org/github/dougfoo/machineLearning/blob/master/diamonds/Diamond-Analysis-4.ipynb">
           <ListItemIcon>
-            <MenuBookIcon />
+             <FontAwesomeIcon icon={faVial} size="2x" />
           </ListItemIcon>
           <ListItemText primary="Notebooks" />
         </ListItem>
@@ -73,7 +84,7 @@ export function SecondaryListItems(props)  {
       <Tooltip placement='right' title="About Diamonds">
         <ListItem button onClick={props.aboutOpen('About')}>
           <ListItemIcon>
-            <HelpOutlineIcon />
+            <FontAwesomeIcon icon={faInfoCircle} size="2x" />
           </ListItemIcon>
           <ListItemText primary="About Diamonds" />
         </ListItem>
