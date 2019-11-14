@@ -66,7 +66,7 @@ export function SecondaryListItems(props)  {
   return (
     <div>
       <Tooltip placement='right' title="Blog">
-        <ListItem button component="a" href="https://medium.com/@doug.foo/full-stack-mern-machine-learning-on-azure-pt1-sourcing-b1231836cb52">
+        <ListItem button component="a" href="https://towardsdatascience.com/full-stack-machine-learning-on-azure-f0f6b77be07e">
            <ListItemIcon>
              <FontAwesomeIcon icon={faMedium} size="2x" />
            </ListItemIcon>

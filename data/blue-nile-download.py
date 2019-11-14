@@ -14,6 +14,9 @@ def _price_to_int(s):
         s = s[0]
     return int(re.sub('[$,]', '', s))
 
+# Original script taken from https://amarder.github.io/diamonds/
+# minor modifications
+#
 # It turns out Blue Nile's API will only let us grab 1000 diamonds
 # associated with each query. To get around this, let's use price to
 # page through the results.
