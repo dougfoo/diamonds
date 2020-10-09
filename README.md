@@ -29,3 +29,5 @@ Flask Python + React.js project
 
 ![Example](https://github.com/dougfoo/diamonds/blob/master/diamonds.png)
 
+![Example2](https://github.com/dougfoo/diamonds/blob/master/diamonds1.png)
+
